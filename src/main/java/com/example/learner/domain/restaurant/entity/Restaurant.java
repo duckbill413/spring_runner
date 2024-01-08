@@ -22,9 +22,8 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 public class Restaurant extends BaseEntity {
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "restaurant_id", columnDefinition = "BINARY(16)")
+    @GeneratedValue(strategy = GenerationType.UUID) // (springboot 3.0 & hibernate6 에서만 지원)
+    @Column(name = "restaurant_id")
     private UUID id;
     private String name;
     private String phone;

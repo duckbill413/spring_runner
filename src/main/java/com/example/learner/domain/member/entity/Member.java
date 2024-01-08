@@ -20,9 +20,8 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 public class Member extends BaseEntity {
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "member_id", columnDefinition = "BINARY(16)")
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "member_id")
     private UUID id;
     private String name;
     @Enumerated(EnumType.STRING)
