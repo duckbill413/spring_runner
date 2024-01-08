@@ -8,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -28,6 +29,11 @@ public class Member extends BaseEntity {
     private Gender gender;
     private String phoneNumber;
     private String email;
+    @ElementCollection(fetch = FetchType.LAZY)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "member_role",
+            joinColumns = @JoinColumn(name = "member_id"))
+    private Set<MemberRole> role;
     @OneToMany(mappedBy = "member")
     @Builder.Default
     private List<OrderDetail> orderDetails = new ArrayList<>();
