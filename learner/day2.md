@@ -61,7 +61,10 @@
 > - DELETE http://localhost:8080/books/{book-isbn} 
 
 ---
-# ResponseEntity, BaseResponse, ErrorResponse
+
+# Response
+## ResponseEntity, BaseResponse, SuccessCode
+API를 비지니스 로직에 알맞게 정의 하여 가독성과 생산성을 향상
 ```java
 @GetMapping("/{id}")
 public ResponseEntity<BaseResponse<MenuInfo>> findMenu(
@@ -75,9 +78,27 @@ public ResponseEntity<BaseResponse<MenuInfo>> findMenu(
 }
 ```
 
+## BaseExceptionHandler, ErrorCode
+비지니스 중 발생할 수 있는 오류들에 대하여 커스텀 Exception을 생성하고 ErrorCode를 통해 관리
+```java
+@Getter
+public class BaseExceptionHandler extends RuntimeException {
+private final ErrorCode errorCode;
+
+    public BaseExceptionHandler(ErrorCode errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    public BaseExceptionHandler(ErrorCode errorCode, String message) {
+        super(message);
+        this.errorCode = errorCode;
+    }
+}
+```
+
 물론, 비니지스 규칙에 따라 유연하게 변경될 수 있음
 
-- 실제 배달의 민족 API
+- `BaseResponse`를 활용한 실제 배달의 민족 API
   - ResponseEntity, BaseResopnse가 활용된 것을 확인해볼 수 있다.
 ```json
 {
@@ -235,7 +256,7 @@ public @interface Data {
 }
 ```
 
-### AllArgsConstructor
+### @AllArgsConstructor
 ```java
 public class Person {
     private String name;

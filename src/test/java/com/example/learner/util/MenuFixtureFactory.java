@@ -10,7 +10,10 @@ package com.example.learner.util;
 
 import org.jeasy.random.EasyRandomParameters;
 import org.jeasy.random.FieldPredicates;
+import org.jeasy.random.randomizers.range.LocalDateTimeRangeRandomizer;
 import org.jeasy.random.randomizers.range.LongRangeRandomizer;
+
+import java.time.LocalDateTime;
 
 import static org.jeasy.random.FieldPredicates.named;
 import static org.jeasy.random.FieldPredicates.ofType;
@@ -23,6 +26,8 @@ public class MenuFixtureFactory {
                 .stringLengthRange(5, 20) // name은 20글자 이내
                 .randomize(named("price").and(ofType(Long.class)), new LongRangeRandomizer(1000L, 100000L))
                 .randomize(named("stock").and(ofType(Long.class)), new LongRangeRandomizer(0L, 100L));
+//                .randomize(named("createdAt").and(ofType(LocalDateTime.class)), new LocalDateTimeRangeRandomizer(LocalDateTime.now().minusYears(3l), LocalDateTime.now()))
+//                .randomize(named("updatedAt").and(ofType(LocalDateTime.class)), new LocalDateTimeRangeRandomizer(LocalDateTime.now().minusYears(3l), LocalDateTime.now()));
 
         return parameter;
     }

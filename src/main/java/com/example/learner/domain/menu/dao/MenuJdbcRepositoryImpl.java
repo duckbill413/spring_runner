@@ -8,7 +8,7 @@
 
 package com.example.learner.domain.menu.dao;
 
-import com.example.learner.domain.menu.domain.Menu;
+import com.example.learner.domain.menu.entity.Menu;
 import com.example.learner.global.common.code.ErrorCode;
 import com.example.learner.global.exception.BaseExceptionHandler;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ import java.util.Optional;
 @Log4j2
 @Repository
 @RequiredArgsConstructor
-public class MenuJDBCRepositoryImpl implements MenuJDBCRepository {
+public class MenuJdbcRepositoryImpl implements MenuJdbcRepository {
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private static final RowMapper<Menu> MENU_ROW_MAPPER = (rs, rowNum) -> Menu.builder()
             .id(rs.getLong("id"))
@@ -54,6 +54,21 @@ public class MenuJDBCRepositoryImpl implements MenuJDBCRepository {
 
         var menu = namedParameterJdbcTemplate.queryForObject(sql, params, MENU_ROW_MAPPER);
         return Optional.ofNullable(menu);
+    }
+
+    @Override
+    public List<Menu> findAll() {
+        var sql = """
+                SELECT
+                id,
+                name,
+                price,
+                stock
+                FROM
+                Menu
+                """;
+
+        return namedParameterJdbcTemplate.query(sql, MENU_ROW_MAPPER);
     }
 
     @Override
@@ -104,7 +119,7 @@ public class MenuJDBCRepositoryImpl implements MenuJDBCRepository {
     private Menu insert(Menu menu) {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(namedParameterJdbcTemplate.getJdbcTemplate())
                 .withTableName("Menu")
-                .usingGeneratedKeyColumns("id"); // @GeneratedValue
+                .usingGeneratedKeyColumns("id"); // @GeneratedValue(strategy = GenerationType.IDENTITY) Key
 
         SqlParameterSource params = new BeanPropertySqlParameterSource(menu);
         var id = jdbcInsert.executeAndReturnKey(params).longValue();

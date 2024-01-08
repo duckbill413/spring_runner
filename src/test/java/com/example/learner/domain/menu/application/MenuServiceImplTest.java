@@ -8,7 +8,7 @@
 package com.example.learner.domain.menu.application;
 
 import com.example.learner.domain.menu.dao.MenuRepository;
-import com.example.learner.domain.menu.domain.Menu;
+import com.example.learner.domain.menu.entity.Menu;
 import com.example.learner.util.MenuFixtureFactory;
 import lombok.extern.log4j.Log4j2;
 import org.jeasy.random.EasyRandom;
@@ -54,23 +54,17 @@ class MenuServiceImplTest {
         // Given
         var parameters = MenuFixtureFactory.getMenuParams();
         var easyRandom = new EasyRandom(parameters);
-        List<Menu> menus = IntStream.range(0, 100000)
+
+        // saveAll insert test
+        List<Menu> menus1 = IntStream.range(0, 30000)
                 .parallel().mapToObj(value -> easyRandom.nextObject(Menu.class))
                 .toList();
 
-        log.info("data loaded");
         // Test saveAll
         long beforeTime = System.currentTimeMillis(); //코드 실행 전에 시간 받아오기
-        menuRepository.saveAll(menus);
+        var savedMenus = menuRepository.saveAll(menus1);
         long afterTime = System.currentTimeMillis(); // 코드 실행 후에 시간 받아오기
         long secDiffTime = afterTime - beforeTime; //두 시간에 차 계산
         log.info("JPA saveAll 시간차이(ms): " + secDiffTime);
-
-        // Test save one by one
-        beforeTime = System.currentTimeMillis();
-        menus.forEach(menuRepository::save);
-        afterTime = System.currentTimeMillis();
-        secDiffTime = afterTime - beforeTime;
-        log.info("JPA save foreach 시간차이(ms): " + secDiffTime);
     }
 }

@@ -8,15 +8,16 @@
 
 package com.example.learner.domain.menu.dao;
 
-import com.example.learner.domain.menu.domain.Menu;
+import com.example.learner.domain.menu.entity.Menu;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface MenuJDBCRepository {
+public interface MenuJdbcRepository {
     int saveAll(List<Menu> menus);
 
     Menu save(Menu menu);
 
     Optional<Menu> findById(Long id);
+    List<Menu> findAll();
 }

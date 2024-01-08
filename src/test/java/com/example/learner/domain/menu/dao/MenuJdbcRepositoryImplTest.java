@@ -1,6 +1,6 @@
 package com.example.learner.domain.menu.dao;
 
-import com.example.learner.domain.menu.domain.Menu;
+import com.example.learner.domain.menu.entity.Menu;
 import com.example.learner.util.MenuFixtureFactory;
 import lombok.extern.log4j.Log4j2;
 import org.jeasy.random.EasyRandom;
@@ -14,12 +14,12 @@ import java.util.stream.IntStream;
 
 @Log4j2
 @SpringBootTest
-class MenuJDBCRepositoryImplTest {
+class MenuJdbcRepositoryImplTest {
     @Autowired
-    private MenuJDBCRepository menuJDBCRepository;
+    private MenuJdbcRepositoryImpl menuJDBCRepository;
 
     @Test
-    @DisplayName("JDBC 메뉴 정보 저장 테스트")
+    @DisplayName("JDBC 메뉴 정보 bulk insert 테스트")
     public void insertMenusTest() {
         // Given
         var parameters = MenuFixtureFactory.getMenuParams();
@@ -28,8 +28,6 @@ class MenuJDBCRepositoryImplTest {
                 .parallel().mapToObj(value -> easyRandom.nextObject(Menu.class))
                 .toList();
 
-        log.info("data loaded");
-        // Test saveAll
         long beforeTime = System.currentTimeMillis(); //코드 실행 전에 시간 받아오기
         menuJDBCRepository.saveAll(menus);
         long afterTime = System.currentTimeMillis(); // 코드 실행 후에 시간 받아오기

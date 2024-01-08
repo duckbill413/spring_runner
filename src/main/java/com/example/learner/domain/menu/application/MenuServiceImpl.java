@@ -1,8 +1,8 @@
 package com.example.learner.domain.menu.application;
 
-import com.example.learner.domain.menu.dao.MenuJDBCRepository;
+import com.example.learner.domain.menu.dao.MenuJdbcRepository;
 import com.example.learner.domain.menu.dao.MenuRepository;
-import com.example.learner.domain.menu.domain.Menu;
+import com.example.learner.domain.menu.entity.Menu;
 import com.example.learner.domain.menu.dto.request.InsertMenuDto;
 import com.example.learner.domain.menu.dto.request.InsertMenus;
 import com.example.learner.domain.menu.dto.response.MenuInfo;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class MenuServiceImpl implements MenuService {
-    private final MenuJDBCRepository menuJDBCRepository;
+    private final MenuJdbcRepository menuJDBCRepository;
     private final MenuRepository menuRepository;
     private final ModelMapper modelMapper;
 
