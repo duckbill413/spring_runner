@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.learner.domain.menu.dao.MenuJDBCRepositoryImplTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-01-08T00:22:16" hostname="DESKTOP-LL832F4" time="454.473">
+  <properties/>
+  <testcase name="JDBC 메뉴 정보 저장 테스트" classname="com.example.learner.domain.menu.dao.MenuJDBCRepositoryImplTest" time="454.473"/>
+  <system-out><![CDATA[09:22:12.939 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.learner.domain.menu.dao.MenuJDBCRepositoryImplTest]: MenuJDBCRepositoryImplTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+09:22:13.049 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.learner.SpringLearnerApplication for test class com.example.learner.domain.menu.dao.MenuJDBCRepositoryImplTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.1)
+
+2024-01-08T09:22:13.416+09:00  INFO 20544 --- [    Test worker] c.e.l.d.m.d.MenuJDBCRepositoryImplTest   : Starting MenuJDBCRepositoryImplTest using Java 17.0.9 with PID 20544 (started by SSAFY in C:\git\javaSpring\spring-learner)
+2024-01-08T09:22:13.417+09:00  INFO 20544 --- [    Test worker] c.e.l.d.m.d.MenuJDBCRepositoryImplTest   : No active profile set, falling back to 1 default profile: "default"
+2024-01-08T09:22:14.014+09:00  INFO 20544 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2024-01-08T09:22:14.015+09:00  INFO 20544 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2024-01-08T09:22:14.040+09:00  INFO 20544 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data JDBC - Could not safely identify store assignment for repository candidate interface com.example.learner.domain.menu.dao.MenuRepository; If you want this repository to be a JDBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table.
+2024-01-08T09:22:14.041+09:00  INFO 20544 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 21 ms. Found 0 JDBC repository interfaces.
+2024-01-08T09:22:14.049+09:00  INFO 20544 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2024-01-08T09:22:14.050+09:00  INFO 20544 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-01-08T09:22:14.075+09:00  INFO 20544 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 21 ms. Found 1 JPA repository interface.
+2024-01-08T09:22:14.436+09:00  INFO 20544 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-01-08T09:22:14.503+09:00  INFO 20544 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.1.Final
+2024-01-08T09:22:14.533+09:00  INFO 20544 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-01-08T09:22:14.745+09:00  INFO 20544 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-01-08T09:22:14.773+09:00  INFO 20544 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-01-08T09:22:14.982+09:00  INFO 20544 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6fdc2db6
+2024-01-08T09:22:14.984+09:00  INFO 20544 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-01-08T09:22:15.707+09:00  INFO 20544 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-01-08T09:22:15.752+09:00  INFO 20544 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-01-08T09:22:16.064+09:00  WARN 20544 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-01-08T09:22:16.907+09:00  INFO 20544 --- [    Test worker] c.e.l.d.m.d.MenuJDBCRepositoryImplTest   : Started MenuJDBCRepositoryImplTest in 3.705 seconds (process running for 4.629)
+2024-01-08T09:22:17.731+09:00  INFO 20544 --- [    Test worker] c.e.l.d.m.d.MenuJDBCRepositoryImplTest   : data loaded
+2024-01-08T09:24:41.608+09:00  INFO 20544 --- [    Test worker] c.e.l.d.m.d.MenuJDBCRepositoryImplTest   : JDBC saveAll 시간차이(ms): 143876
+2024-01-08T09:29:51.386+09:00  INFO 20544 --- [    Test worker] c.e.l.d.m.d.MenuJDBCRepositoryImplTest   : JDBC save foreach 시간차이(ms): 309777
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

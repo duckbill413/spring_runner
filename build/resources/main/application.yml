@@ -1,0 +1,72 @@
+server:
+  port: 9000
+#  servlet:
+#    context-path: /duckbill
+
+spring:
+  h2:
+    console:
+      enabled: false
+      path: /h2-console
+  datasource:
+    url: jdbc:mysql://localhost:3306/learn?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
+    username: ssafy
+    password: ssafy
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    defer-datasource-initialization: true
+    generate-ddl: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+# JWT
+#jwt:
+#  salt:
+#  expiretime:
+#    access-token:
+#    refresh-token:
+
+logging:
+  level:
+    root: info
+
+springdoc:
+  api-docs:
+    path: /api-docs
+    groups:
+      enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    groups-order: asc
+    tags-sorter: alpha
+    operations-sorter: alpha
+    display-request-duration: true
+    doc-expansion: none
+  cache:
+    disabled: true
+  override-with-generic-response: false
+  model-and-view-allowed: false
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  group-configs:
+    - group: all-api
+      paths-to-match:
+        - /**
+      paths-to-exclude:
+        - /favicon.ico
+        - /health
+    - group: jwt-api
+      paths-to-match:
+        - /api/**
+    - group: menus
+      paths-to-match:
+        - /api/menus/**
+  show-actuator: true
