@@ -3,9 +3,9 @@ package com.example.learner.domain.menu.application;
 import com.example.learner.domain.menu.dao.MenuJdbcRepository;
 import com.example.learner.domain.menu.dao.MenuRepository;
 import com.example.learner.domain.menu.entity.Menu;
-import com.example.learner.domain.menu.dto.request.InsertMenuDto;
-import com.example.learner.domain.menu.dto.request.InsertMenus;
-import com.example.learner.domain.menu.dto.response.MenuInfo;
+import com.example.learner.domain.menu.dto.request.InsertMenuReq;
+import com.example.learner.domain.menu.dto.request.InsertMenusReq;
+import com.example.learner.domain.menu.dto.response.MenuDetailRes;
 import com.example.learner.global.common.code.ErrorCode;
 import com.example.learner.global.exception.BaseExceptionHandler;
 import lombok.RequiredArgsConstructor;
@@ -31,20 +31,20 @@ public class MenuServiceImpl implements MenuService {
      * @return 추가된 메뉴의 개수
      */
     @Override
-    public int insertMenus(InsertMenus menusDto) {
+    public int insertMenus(InsertMenusReq menusDto) {
         var menus = menusDto.menus().stream().map(menuDto ->
                 modelMapper.map(menuDto, Menu.class)).toList();
         return menuJDBCRepository.saveAll(menus);
     }
 
     @Override
-    public MenuInfo insertMenu(InsertMenuDto menuDto) {
+    public MenuDetailRes insertMenu(InsertMenuReq menuDto) {
         var menu = menuJDBCRepository.save(Menu.builder()
                 .name(menuDto.name())
                 .price(menuDto.price())
                 .build());
 
-        return new MenuInfo(menu.getId(), menu.getName(), menu.getPrice(), menu.getStock());
+        return new MenuDetailRes(menu.getId(), menu.getName(), menu.getPrice(), menu.getStock());
     }
 
     /**
@@ -54,9 +54,9 @@ public class MenuServiceImpl implements MenuService {
      * @return MenuInfo 메뉴 정보
      */
     @Override
-    public MenuInfo findMenu(Long menuId) {
+    public MenuDetailRes findMenu(Long menuId) {
         var menu = menuJDBCRepository.findById(menuId).orElseThrow(() ->
-                new BaseExceptionHandler(ErrorCode.NOT_FOUND_MENU_EXCEPTION));
-        return new MenuInfo(menu.getId(), menu.getName(), menu.getPrice(), menu.getStock());
+                new BaseExceptionHandler(ErrorCode.NOT_FOUND_MENU));
+        return new MenuDetailRes(menu.getId(), menu.getName(), menu.getPrice(), menu.getStock());
     }
 }

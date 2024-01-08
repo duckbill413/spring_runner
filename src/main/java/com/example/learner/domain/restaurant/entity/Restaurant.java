@@ -4,9 +4,9 @@ import com.example.learner.domain.BaseEntity;
 import com.example.learner.domain.image.entity.Image;
 import com.example.learner.domain.menu.entity.Menu;
 import com.example.learner.domain.order.entity.OrderDetail;
+import com.example.learner.domain.restaurant.dto.resopnse.RestaurantDetailRes;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,4 +38,13 @@ public class Restaurant extends BaseEntity {
     @OneToMany(mappedBy = "restaurant")
     @Builder.Default
     private List<OrderDetail> orderDetails = new ArrayList<>();
+
+    public static RestaurantDetailRes getDetailDto(Restaurant restaurant) {
+        return new RestaurantDetailRes(restaurant.getId(),
+                restaurant.getName(),
+                restaurant.getPhone(),
+                restaurant.getCategory(),
+                Image.getDto(restaurant.getImage())
+        );
+    }
 }

@@ -8,9 +8,9 @@
 package com.example.learner.domain.menu.api;
 
 import com.example.learner.domain.menu.application.MenuService;
-import com.example.learner.domain.menu.dto.request.InsertMenuDto;
-import com.example.learner.domain.menu.dto.request.InsertMenus;
-import com.example.learner.domain.menu.dto.response.MenuInfo;
+import com.example.learner.domain.menu.dto.request.InsertMenuReq;
+import com.example.learner.domain.menu.dto.request.InsertMenusReq;
+import com.example.learner.domain.menu.dto.response.MenuDetailRes;
 import com.example.learner.global.common.BaseResponse;
 import com.example.learner.global.common.ErrorResponse;
 import com.example.learner.global.common.code.SuccessCode;
@@ -41,7 +41,7 @@ public class MenuController {
     )
     @PostMapping("/dozen")
     public ResponseEntity<BaseResponse<String>> insertMenus(
-            @RequestBody InsertMenus menusDto
+            @RequestBody InsertMenusReq menusDto
     ) {
         var result = menuService.insertMenus(menusDto);
         return BaseResponse.success(
@@ -51,7 +51,7 @@ public class MenuController {
     }
 
     @PostMapping("")
-    public ResponseEntity<BaseResponse<MenuInfo>> insertMenu(@RequestBody InsertMenuDto menuDto) {
+    public ResponseEntity<BaseResponse<MenuDetailRes>> insertMenu(@RequestBody InsertMenuReq menuDto) {
         var result = menuService.insertMenu(menuDto);
         return BaseResponse.success(
                 SuccessCode.INSERT_SUCCESS,
@@ -63,12 +63,12 @@ public class MenuController {
             summary = "메뉴 조회",
             description = "메뉴 Id를 이용한 메뉴 정보 조회",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "메뉴 조회 성공", content = @Content(schema = @Schema(implementation = MenuInfo.class))),
+                    @ApiResponse(responseCode = "200", description = "메뉴 조회 성공", content = @Content(schema = @Schema(implementation = MenuDetailRes.class))),
                     @ApiResponse(responseCode = "404", description = "메뉴 조회 실패", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             }
     )
     @GetMapping("/{id}")
-    public ResponseEntity<BaseResponse<MenuInfo>> findMenu(
+    public ResponseEntity<BaseResponse<MenuDetailRes>> findMenu(
             @PathVariable Long menuId
     ) {
         var menuDto = menuService.findMenu(menuId);

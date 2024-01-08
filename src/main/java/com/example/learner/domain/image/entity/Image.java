@@ -1,6 +1,7 @@
 package com.example.learner.domain.image.entity;
 
 import com.example.learner.domain.BaseEntity;
+import com.example.learner.domain.image.dto.response.ImageDetailRes;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,4 +21,10 @@ public class Image extends BaseEntity {
     private Long id;
     private String name;
     private String imageUrl;
+    public static ImageDetailRes getDto(Image image) {
+        return new ImageDetailRes(
+                image.getName(),
+                image.getImageUrl()
+        );
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.learner.domain.menu.entity;
 
 import com.example.learner.domain.BaseEntity;
+import com.example.learner.domain.menu.dto.response.MenuDetailRes;
 import com.example.learner.domain.restaurant.entity.Restaurant;
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,5 +32,14 @@ public class Menu extends BaseEntity {
         if (!restaurant.getMenus().contains(this)) {
             restaurant.getMenus().add(this);
         }
+    }
+
+    public static MenuDetailRes getDetailRes(Menu menu) {
+        return new MenuDetailRes(
+                menu.getId(),
+                menu.getName(),
+                menu.getPrice(),
+                menu.getStock()
+        );
     }
 }

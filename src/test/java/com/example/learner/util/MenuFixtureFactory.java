@@ -9,11 +9,7 @@
 package com.example.learner.util;
 
 import org.jeasy.random.EasyRandomParameters;
-import org.jeasy.random.FieldPredicates;
-import org.jeasy.random.randomizers.range.LocalDateTimeRangeRandomizer;
 import org.jeasy.random.randomizers.range.LongRangeRandomizer;
-
-import java.time.LocalDateTime;
 
 import static org.jeasy.random.FieldPredicates.named;
 import static org.jeasy.random.FieldPredicates.ofType;

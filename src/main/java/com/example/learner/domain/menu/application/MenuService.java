@@ -1,11 +1,11 @@
 package com.example.learner.domain.menu.application;
 
-import com.example.learner.domain.menu.dto.request.InsertMenuDto;
-import com.example.learner.domain.menu.dto.request.InsertMenus;
-import com.example.learner.domain.menu.dto.response.MenuInfo;
+import com.example.learner.domain.menu.dto.request.InsertMenuReq;
+import com.example.learner.domain.menu.dto.request.InsertMenusReq;
+import com.example.learner.domain.menu.dto.response.MenuDetailRes;
 
 public interface MenuService {
-    int insertMenus(InsertMenus menusDto);
-    MenuInfo insertMenu(InsertMenuDto menuDto);
-    MenuInfo findMenu(Long menuId);
+    int insertMenus(InsertMenusReq menusDto);
+    MenuDetailRes insertMenu(InsertMenuReq menuDto);
+    MenuDetailRes findMenu(Long menuId);
 }

@@ -10,7 +10,7 @@ package com.example.learner.domain.menu.dto.response;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "메뉴 정보")
-public record MenuInfo(
+public record MenuDetailRes(
         @Schema(description = "메뉴 Id")
         Long id,
         @Schema(description = "메뉴 이름")
