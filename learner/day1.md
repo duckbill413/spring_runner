@@ -193,6 +193,7 @@ domain간 강한 결합을 방지하기 위해서 사용되는 패키지 구조
    - `stripLeading`: 문자열 앞의 공백 제거
    - `stripTrailing`: 문자열 뒤의 공백 제거
    - `repeat`: 문자열을 주어진 수 만큼 반복
+6. javax -> jakarta
 
 ### 새로운 JDK LTS 버전 JDK21
 

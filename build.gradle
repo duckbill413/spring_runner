@@ -46,6 +46,13 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.jeasy/easy-random-core
     testImplementation 'org.jeasy:easy-random-core:5.0.0'
+
+    // json jackson
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.2'
+
+    // aws s3
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
 }
 
 tasks.named('test') {
