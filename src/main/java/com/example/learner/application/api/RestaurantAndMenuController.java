@@ -1,4 +1,4 @@
-package com.example.learner.application.controller;
+package com.example.learner.application.api;
 
 import com.example.learner.application.dto.response.RestaurantAndMenuDetailRes;
 import com.example.learner.application.usecase.GetRestaurantAndMenuUsecase;

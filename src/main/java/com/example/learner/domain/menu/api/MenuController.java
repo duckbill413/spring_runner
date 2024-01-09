@@ -24,7 +24,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Menu", description = "Menu 관련 API")
+@Tag(name = "메뉴", description = "Menu 관련 API")
 @Log4j2
 @RestController
 @RequestMapping("/api/menus")
