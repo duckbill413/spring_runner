@@ -54,7 +54,7 @@ release가 자주 발생하는 프로젝트에 최적화
 8. 본문은 `어떻게`보다 `무엇을`, `왜`에 맞춰 작성하기
 
 ## Issue Convention
-![inssu.JPG](assets/inssu.JPG)
+![inssu.JPG](assets/inssue.JPG)
 
 - 제목은 `ISSUE` 성격에 맞게 자유롭게 합니다.
 - 내용은 `ISSUE_TEMPLATE`에 맞춰서 작성합니다. 만약 템플릿과 작성해야할 이슈가 맞지 않는다면 원하는 형태로 변경합니다.
