@@ -5,6 +5,7 @@ import com.example.learner.domain.member.entity.Member;
 import com.example.learner.domain.restaurant.entity.Restaurant;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.ArrayList;
 import java.util.List;

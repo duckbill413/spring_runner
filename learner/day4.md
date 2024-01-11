@@ -13,7 +13,7 @@
 - 잘못 구현된 경우 속도 저하 및 일관성이 무너질 수 있다.
 
 ---
-# JPA
+# JPA Part 1
 [JPA 사용하기](https://velog.io/@duckbill/JPA-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0)
 - 어플리케이션과 데이터베이스는 ORM이라는 개념이다.
 - JPA는 자바 ORM의 표준 스택으로 인터페이스 형태로 제공하여 준다.
@@ -37,7 +37,19 @@
         defer-datasource-initialization: true # Spring 2.5 부터 resource의 SQL을 Spring 생성시 초기화 하지 않기 때문에 초기화 하기 위해서 `true`로 설정
     ```
   - `show-sql`을 `true`로 설정하면 속도가 느려질 수 있으나, JPA에서 사용하는 쿼리를 확인하기 쉽다.
-  - `ddl-auto`는 실제 운영시에는 `none`, `validate` 옵션으로만 사용해야 한다.
+    - `ddl-auto`는 실제 운영시에는 `none`, `validate` 옵션으로만 사용해야 한다.
+      - create : 기존 테이블 삭제 후 다시 생성 (drop + create)
+      - create-drop : create와 같으나 종료 시점에 테이블 drop
+      - update : 변경분만 반영
+      - validate : 엔티티와 테이블이 정상 매핑 되었는지만 확인
+      - none : 사용하지 않음
+      - 주의 사항
+        - 운영 장비에서는 create, create-drop, update 를 사용해서는 않된다.
+        - 개발 초기 : create, create-drop
+        - 테스트 서버 : update, validate
+        - 스테이징과 운영 서버 : validate, none
+        - 로컬 환경을 제외하고는 직접 쿼리 명령을 하는 것이 좋다.
+      
 
 - JpaRepository 생성하기
 Spring에서 JPA는 Entity를 생성하고 JpaRepository 인터페이스를 생성하는 것으로 사용할 수 있다.
@@ -85,14 +97,65 @@ private String id
 ```
 
 ### @Column
-
-### Enum type
 - name: 데이터베이스의 Column과 Object name을 별도로 매핑하기 위해서 사용
 - nullable: default는 null 이지만 false로 두면 not null로 테이블을 생성하게 된다.
 - unique: column 하나만 unique 키로 둘때 사용
-- length: default=255 Varchar 등의 크기를 결
+- length: default=255 Varchar 등의 크기를 결정
 - insertable / updatable: DDL 뿐만 아니라 DML에도 영향을 끼친다. 값이 false이면 insert / update 시에 반영되지 않는다.
 - columnDefinition(DDL): 데이터베이스 컬럼 정보를 직접 줄 수 있다
+
+### Enum type
+Enum type을 컬럼으로 생성함으로써 에러를 방지할 수 있다.
+
+- Entity에서 컬럼시에 Enum column을 생성하기 위해서는 `@Enumerated` 어노테이션을 이용할 수 있다.
+- `@Enumerated` 어노테이션을 이용해서 컬럼생성시 `EnumType`은 `String`으로 해주는 것이 좋다.
+  - `EnumType`을 `String`으로 하지 않았을때의 문제점
+    - `EnumType`을 `String`으로 하지 않았을때 컬럼은 Enum 파라미터의 index 번호 ex)0, 1, 2...으로 생성된다.
+    - 만약 중간에 Enum의 순서가 변경되거나 새로운 값이 추가되었을때 저장된 데이터베이스 값의 의미가 달라지는 일이 발생할 수 있다.
+```java
+@Enumerated(EnumType.STRING)
+private Category category;
+```
+
+### Embedded
+- 임베디드 타입은 새로운 값 타입을 직접 정의해서 사용한는 JPA의 방법이다.
+- 임베디드 타입을 사용하여 더욱 객체지향적인 코드를 만들 수 있다.
+- 코드의 재사용성을 향상 시킬 수 있다.
+
+> Member Entity의 Address Embedded class
+> ```java
+> @Data
+> @AllArgsConstructor
+> @NoArgsConstructor
+> @Embeddable
+> public class Address {
+>   private String city; // 시
+>   private String district; // 구
+>   @Column(name = "address_detail")
+>   private String detail; // 상세주소
+>   private String zipcode; // 우편번호
+> }
+> ```
+> - `@Embeddable` 어노테이션을 붙인다.
+> 
+> Member Entity Column
+> ```java
+> @Embedded
+> private Address address // @Embedded 어노테이션 사용
+> ```
+
+- Embedded 클래스의 재사용성을 높이기 위해서 `@AttributeOverride` 어노테이션을 사용할 수도 있다.
+```java
+@AttributeOverrides({
+        @AttributeOverride(name = "city", column = @Column(name = "home_city")),
+        @AttributeOverride(name = "district", column = @Column(name = "home_district")),
+        @AttributeOverride(name = "detail", column = @Column(name = "home_address_detail")),
+        @AttributeOverride(name = "zipCode", column = @Column(name = "home_zip_code"))
+})
+@Embedded
+private Address address;
+```
+
 
 ### `@Transient`
 해당 어노테이션을 붙인 Column은 영속성 처리에서 제외되기 때문에 DB에 반영되지 않는다.

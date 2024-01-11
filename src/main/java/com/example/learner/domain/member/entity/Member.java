@@ -4,6 +4,7 @@ import com.example.learner.domain.BaseEntity;
 import com.example.learner.domain.order.entity.OrderDetail;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.UUID;
 public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "member_id")
     private UUID id;
     private String name;
@@ -28,6 +30,14 @@ public class Member extends BaseEntity {
     private Gender gender;
     private String phoneNumber;
     private String email;
+    @AttributeOverrides({
+            @AttributeOverride(name = "city", column = @Column(name = "home_city")),
+            @AttributeOverride(name = "district", column = @Column(name = "home_district")),
+            @AttributeOverride(name = "detail", column = @Column(name = "home_address_detail")),
+            @AttributeOverride(name = "zipCode", column = @Column(name = "home_zip_code"))
+    })
+    @Embedded
+    private Address address;
     @ElementCollection(fetch = FetchType.LAZY)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "member_role",

@@ -22,7 +22,7 @@ public class Menu extends BaseEntity {
     private String name;
     private Long price;
     private Long stock;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
