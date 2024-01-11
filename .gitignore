@@ -242,3 +242,4 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/java,windows,eclipse,intellij+all,macos
 src/main/resources/application-aws.yml
+/build/resources/main/application-aws.yml
