@@ -156,6 +156,10 @@ JDBC의 ROW_MAPPER와 같이 JPQL을 사용하여 DTO로 직접 매핑하는 방
   List<Restaurant> findAllWithMenu();
   ```
 
+## 총평
+
+이론과 이러이러한 것들이 있다 위주로 이야기를 했지만 결국 스스로 실습을 진행해 보지 않는다면 의미가 없다.
+
 ---
 
 ## Software Delete

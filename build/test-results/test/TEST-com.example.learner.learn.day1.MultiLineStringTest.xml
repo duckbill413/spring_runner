@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.learner.learn.day1.MultiLineStringTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-01-11T01:57:19" hostname="DESKTOP-LL832F4" time="0.017">
+  <properties/>
+  <testcase name="MultiLine String test" classname="com.example.learner.learn.day1.MultiLineStringTest" time="0.017"/>
+  <system-out><![CDATA[ 안녕!
+ 난 싸피인
+ 야호!!
+
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
