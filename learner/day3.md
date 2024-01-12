@@ -189,6 +189,29 @@ Student.builder()
   }
   ```
 
+### AccessLevel의 설정
+- @Builder(access = AccessLevel.PRIVATE) 의 형태로 사용 가능
+
+```java
+public class Vehicle {
+    private final String name;
+    private final int number;
+    
+    @Builder(access = AccessLevel.PRIVATE)
+    private Vehicle(String name, int number) {
+        this.name = name;
+        this.number = number;
+    }
+
+    public static Vehicle getVehicle(String name, int number) {
+        return Vehicle.builder()
+                .name(name)
+                .number(number)
+                .build();
+    }
+}
+```
+
 ---
 
 # JDBC Template
