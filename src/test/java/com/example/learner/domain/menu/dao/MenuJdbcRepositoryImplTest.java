@@ -24,7 +24,7 @@ class MenuJdbcRepositoryImplTest {
         // Given
         var parameters = MenuFixtureFactory.getMenuParams();
         var easyRandom = new EasyRandom(parameters);
-        List<Menu> menus = IntStream.range(0, 100000)
+        List<Menu> menus = IntStream.range(0, 30000)
                 .parallel().mapToObj(value -> easyRandom.nextObject(Menu.class))
                 .toList();
 

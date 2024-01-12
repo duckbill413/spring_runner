@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class MenuServiceImpl implements MenuService {
-    private final MenuJdbcRepository menuJDBCRepository;
+    private final MenuJdbcRepository menuJdbcRepository;
     private final MenuRepository menuRepository;
     private final ModelMapper modelMapper;
 
@@ -34,12 +34,12 @@ public class MenuServiceImpl implements MenuService {
     public int insertMenus(InsertMenusReq menusDto) {
         var menus = menusDto.menus().stream().map(menuDto ->
                 modelMapper.map(menuDto, Menu.class)).toList();
-        return menuJDBCRepository.saveAll(menus);
+        return menuJdbcRepository.saveAll(menus);
     }
 
     @Override
     public MenuDetailRes insertMenu(InsertMenuReq menuDto) {
-        var menu = menuJDBCRepository.save(Menu.builder()
+        var menu = menuJdbcRepository.save(Menu.builder()
                 .name(menuDto.name())
                 .price(menuDto.price())
                 .build());
@@ -55,7 +55,7 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public MenuDetailRes findMenu(Long menuId) {
-        var menu = menuJDBCRepository.findById(menuId).orElseThrow(() ->
+        var menu = menuJdbcRepository.findById(menuId).orElseThrow(() ->
                 new BaseExceptionHandler(ErrorCode.NOT_FOUND_MENU));
         return new MenuDetailRes(menu.getId(), menu.getName(), menu.getPrice(), menu.getStock());
     }

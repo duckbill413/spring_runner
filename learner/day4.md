@@ -67,6 +67,10 @@ Spring에서 JPA는 Entity를 생성하고 JpaRepository 인터페이스를 생�
 ### Query Subject Keywords
 ![](https://velog.velcdn.com/images/duckbill/post/defe5920-1635-4082-ad56-52c56d629eb7/image.png)
 
+```java
+List<Menu> findByRestaurant_Name(String name);
+```
+
 ### Query Predicate Keywords
 ![](https://velog.velcdn.com/images/duckbill/post/9c708efc-b19b-4a36-bb2d-341e484bc824/image.png)
 

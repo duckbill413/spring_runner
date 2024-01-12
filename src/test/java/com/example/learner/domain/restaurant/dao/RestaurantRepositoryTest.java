@@ -140,4 +140,12 @@ class RestaurantRepositoryTest {
         var result = restaurantRepository.save(restaurant);
         log.info(result.getId());
     }
+
+    @DisplayName("Fetch Join Test")
+    @Test
+    public void fetchJoinTest() {
+        List<Restaurant> restaurants = restaurantRepository.findAll();
+
+        log.info("레스토랑의 개수: " + restaurants.size());
+    }
 }
