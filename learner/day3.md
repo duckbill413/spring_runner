@@ -1,6 +1,6 @@
 # 트랜잭션 (Transaction)
 
-## 트랜잭션 특징
+## 트랜잭션 특징 Part 1 -> Day7
 
 - 원자성(Atomicity)
 
@@ -64,38 +64,130 @@ public void putBookAndAuthor(){
     - `@Transaction`: 모든 경우 (CRUD) 활용할 수 있다.
     - `@Transactional(readOnly = true)`: READ에 대한 경우에만 활용이 가능하다. Spring에 해당 로직이 Read에 대해서만 트랜잭션을 발생시키면 된다는 것을 알려주기 때문에 `@Transaction`에 비해서 빠르다.
 
-
-## 격리 수준 (Isolation)
-
-동시에 여러 트랜잭션이 진행될 때 트랜잭션의 작업 결과를 여타 트랜잭션에게 어떻게 노출할 것인지를 결정한다.
-
-### Isolation 5가지 수준
-
-1. DEFAULT
-   - 사용하는 데이터 엑세스 기술 또는 DB 드라이버의 디폴트 설정에 따름
-   - 일반적으로 드라이버 격리 수준은 DB의 격리 수준을 따르며, 대부분의 DB는 READ_COMMITED를 기본 격리 수준으로 가짐
-2. READ_UNCOMMITTED
-   - 가장 낮은 격리수준으로써 하나의 트랜잭션이 커밋되기 전에 그 변화가 다른 트랜잭션에 그대로 노출되는 문제를 가진다.
-   - 가장 빠른 속도를 가지므로 데이터의 일관성이 떨어지더라도 의도적으로 사용될 수 있다.
-   - Dirty Read, Phantom Read, Non-Repeatable Read 문제
-3. READ_COMMITTED
-   - Spring은 기본 속성이 DEFAULT이며, DB는 일반적으로 READ_COMMITED가 기본 속성으로 사용된다.
-   - 가장 많이 사용되는 속성이다.
-   - READ_UNCOMMITED와 달리 다른 트랜잭션이 커밋하지 않은 정보는 읽을 수 없다.
-   - 하나의 트랜잭션이 읽은 로우를 다른 트랜잭션이 수정할 수 있어서 처음 트랜잭션이 같은 로우를 다시 읽을 때 다른 내용이 발견딜 수 있음
-   - Phantom Read, Non-Repeatable Read 문제
-4. REPEATABLE_READ
-   - 하나의 트랜잭션이 읽은 로우를 다른 트랜잭션이 수정할 수 없도록 막아주지만 새로운 로우를 추가하는 것은 막지 않는다.
-   - 따라서 SELECT로 조건에 맞는 로우를 전부 가져오는 경우 트랜잭션이 끝나기 전에 추가된 로우를 발견할 수 없다.
-   - Phantom Read 문제
-5. SERIALIZABLE
-   - 가장 강력한 트랜잭션 격리 수준으로, 이름 그대로 트랜잭션을 순차적으로 진행시켜준다.
-   - SERIALIZABLE 은 여러 트랜잭션이 동시에 같은 테이블의 정보를 엑세스 할 수 없다.
-   - SERIALIZABLE 은 가장 안전하지만 가장 성능이 떨어지므로 극단적으로 안전한 작업이 필요한 경우가 아니라면 사용해서는 안된다.
-
-
 ---
 # Builder Pattern
+Builder 패턴은 Java 객체를 쉽게 생성할 수 있도록 도와준다.
+Builder 패턴을 이용하면 모든 경우의 생성자를 만들어 놓은 것과 같다고 볼 수 있다.
+
+> Builder 구현하기
+> Builder에 대해 쉽게 이해해 보기 위해서 직접 구현해 보겠습니다.
+> 
+> Builder interface
+> ```java
+> public interface StudentBuilder {
+>   StudentBuilder name(String name);
+>   StudentBuilder age(int grade);
+>   Student build();
+> }
+> ```
+> 
+> Builder interface 구현체
+> ```java
+> public class DefaultStudentBuilder implements StudentBuilder{
+>   private String name;
+>   private int grade;
+>   @Override
+>   public StudentBuilder name(String name) {
+>   this.name = name;
+>   return this;
+>   }
+> 
+>     @Override
+>     public StudentBuilder age(int grade) {
+>         this.grade = grade;
+>         return this;
+>     }
+> 
+>     @Override
+>     public Student build() {
+>         // 기본 생성자가 반드시 필요한 것을 확인할 수 있다.
+>         Student student = new Student();
+>         student.setName(this.name);
+>         student.setGrade(this.grade);
+>         return student;
+>     }
+> }
+> ```
+
+### Lombok builder
+lombok의 Builder을 이용하면 앞선 과정을 어노테이션(`@Builder`)을 이용해 간단히 할 수 있다.
+
+클래스 상단에 `@Builder` 어노테이션 사용
+```java
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Student {
+    private String name;
+    private int grade;
+}
+
+@Data
+public class Animal {
+  private String name;
+  private int age;
+
+  @Builder
+  public Animal(String name, int age) {
+    this.name = Objects.nonNull(name) ? name : "초코";
+    this.age = age <= 0 ? 1 : age;
+  }
+
+  @Builder(builderMethodName = "fromAge", buildMethodName = "newAnimal")
+  public Animal(int age) {
+    this.name = "new!!!";
+    this.age = age;
+  }
+}
+```
+
+Student 객체 생성
+```java
+Student.builder()
+    .name("홍길동")
+    .grade(1)
+    .build();
+```
+
+생성자에 `@Builder` 어노테이션 사용 및 하나의 클래스에 여러 `@Builder`의 사용
+- 생성자에 `@Builder`를 사용해서 필요한 인자에 대해서만 객체를 생성하거나 유효성 검증등의 비지니스 로직을 더할 수 있다.
+  ```java
+    @Builder
+    public Animal(String name, int age) {
+        this.name = Objects.nonNull(name) ? name : "홍길동";
+        this.age = age <= 0 ? 1 : age;
+    }
+  ```
+
+- 한 클래스에서 여러개의 Builder을 사용하기 위해서는 `builderMethodName`와 `buildMethodName`를 커스텀하여 사용할 수 있다.
+  ```java
+    @Builder(builderMethodName = "fromAge", buildMethodName = "newAnimal")
+    public Animal(int age) {
+        this.name = "new!!!";
+        this.age = age; 
+    }
+  ```
+  
+- 객체 생성
+  ```java
+  @Test
+  public void animalBuilderTest1() {
+      Animal dog = Animal.builder()
+              .name(null) // null이 입력되었을때 확인
+              .age(3)
+              .build();
+      log.info(dog);
+  }
+
+  @Test
+  public void animalBuilderTest2() {
+      Animal newAnimal = Animal.fromAge() // name이 입력되지 않음을 볼 수 있음
+              .age(5)
+              .newAnimal();
+      log.info(newAnimal); // builder Method의 이름이 다른 것 확인 가능
+  }
+  ```
 
 ---
 
