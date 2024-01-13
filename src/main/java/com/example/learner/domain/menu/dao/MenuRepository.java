@@ -19,6 +19,7 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
             SELECT m
             FROM Menu m
             WHERE m.restaurant.id = :id
+            ORDER BY m.name
             """,
             countQuery = """
                     SELECT count(m)

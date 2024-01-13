@@ -81,7 +81,7 @@ class RestaurantRepositoryTest {
         } else {
             log.info("이미지 삭제됨");
         }
-        Assertions.assertNotNull(findImage.get());
+        Assertions.assertNotNull(findImage.orElse(null));
     }
 
     @Test

@@ -7,10 +7,13 @@
 
 package com.example.learner.global.config;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,7 +22,7 @@ public class SwaggerConfig {
     //    private final ServerProperties serverProperties;
     @Bean
     public OpenAPI openAPI() {
-        return new OpenAPI().info(new Info()
+        Info info = new Info()
                 .title("Learn Spring")
                 .description("""
                         <h2>Spring Learner Swagger doc API</h1>
@@ -35,7 +38,23 @@ public class SwaggerConfig {
                         """)
                 .contact(new Contact().name("duckbill413").url("https://github.com/duckbill413").email("uhyeon7399@daum.net"))
                 .license(new License().name("Apache License Version 2.0").url("http://www.apache.org/licenses/LICENSE-2.0"))
-                .version("v0.0.1")
-        );
+                .version("v0.0.1");
+
+        return new OpenAPI()
+                .info(info);
+
+//        String jwt = "JWT";
+//        SecurityRequirement securityRequirement = new SecurityRequirement().addList(jwt);
+//        Components components = new Components().addSecuritySchemes(jwt, new SecurityScheme()
+//                .name(jwt)
+//                .type(SecurityScheme.Type.HTTP)
+//                .scheme("Bearer")
+//                .bearerFormat("JWT")
+//        );
+//
+//        return new OpenAPI()
+//                .info(info)
+//                .addSecurityItem(securityRequirement)
+//                .components(components);
     }
 }

@@ -115,6 +115,7 @@ JPQL은 `JpaRepository`의 메소드에 `@Query` 어노테이션을 붙여 사�
         SELECT m
         FROM Menu m
         WHERE m.restaurant.id = :id
+        ORDER BY m.name
         """,
         countQuery = """
                 SELECT count(m)
