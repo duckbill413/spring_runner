@@ -31,7 +31,7 @@ public class Restaurant extends BaseEntity {
     private String phone;
     @Enumerated(EnumType.STRING)
     private Category category;
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "image_id")
     private Image image;
     @OneToMany(mappedBy = "restaurant", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
