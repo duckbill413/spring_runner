@@ -22,7 +22,6 @@ import java.util.ArrayList;
 
 @Configuration
 public class SwaggerConfig {
-    //    private final ServerProperties serverProperties;
     @Bean
     public OpenAPI openAPI() {
         Info info = new Info()

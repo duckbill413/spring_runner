@@ -73,14 +73,6 @@ public enum ErrorCode {
     // 유저 에러 (CODE: 200)
     // 유저가 존재하지 않음
     NOT_FOUND_USER(404, "B200", "존재하지 않는 유저입니다."),
-    // 메뉴 에러 (CODE: 300)
-    // 메뉴가 존재하지 않음 (CODE: 300)
-    NOT_FOUND_MENU(404, "B300", "존재하지 않는 메뉴 입니다."),
-    FAILED_TO_UPDATE_MENU(404, "B301", "메뉴 업데이트에 실패 하였습니다."),
-    // 음식점 에러 (CODE: 400)
-    NOT_FOUND_RESTAURANT(404, "B400", "존재하지 않는 음식점 입니다."),
-    // S3 File 에러 (CODE: 900)
-    NOT_FOUND_S3FILE(404, "B900", "존재하지 않는 S3 파일입니다."),
     ; // End
 
     /**
