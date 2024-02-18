@@ -1,13 +1,13 @@
 package com.example.learner.global.security.user;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * author        : duckbill413
@@ -16,18 +16,21 @@ import java.util.Map;
  **/
 @Getter
 public class UserSecurityDTO extends User implements OAuth2User {
-    private Map<String, Object> props;
+    private final UUID id;
+    private final Map<String, Object> props;
 
-    public UserSecurityDTO(String username, String password, Collection<? extends GrantedAuthority> authorities) {
+    public UserSecurityDTO(String username,
+                           String password,
+                           Collection<? extends GrantedAuthority> authorities,
+                           Map<String, Object> props) {
         super(username, password, authorities);
+        this.props = props;
+        this.id = UUID.fromString(username);
     }
 
     @Override
     public Map<String, Object> getAttributes() {
         return this.getProps();
-    }
-    public void setAttributes(Map<String, Object> props) {
-        this.props = props;
     }
 
     @Override

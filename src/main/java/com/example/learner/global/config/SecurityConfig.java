@@ -1,5 +1,9 @@
 package com.example.learner.global.config;
 
+import com.example.learner.global.security.CustomUserDetailsService;
+import com.example.learner.global.security.handler.CustomOAuth2FailHandler;
+import com.example.learner.global.security.handler.CustomOAuth2SuccessHandler;
+import com.example.learner.global.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +12,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -26,10 +32,10 @@ public class SecurityConfig {
             "/health", "/api-docs/**", "/swagger-ui/**",
             "/swagger-resources/**", "/swagger-ui.html", "/api/token/**"
     };
-    private final CustomOAuth2UserService customOAuth2UserService;
-    private final CustomOAuth2FailHandler customOAuth2FailHandler;
+    private final CustomUserDetailsService customUserDetailsService;
     private final CustomOAuth2SuccessHandler customOAuth2SuccessHandler;
-    private final JwtService jwtService;
+    private final CustomOAuth2FailHandler customOAuth2FailHandler;
+    private final JWTUtil jwtUtil;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -37,9 +43,9 @@ public class SecurityConfig {
                 .cors(corsConfig -> corsConfig.configurationSource(corsConfigurationSource()))
                 .formLogin(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                 JWT 토큰을 쿠키에 넣을지, LocalStorage에 넣을지에 따라 비활성화 여부 결정
                 .csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
                         authorize -> authorize.requestMatchers(URL_WHITE_LIST).permitAll().anyRequest().authenticated())
+
                 .oauth2Login(
                         oauth2 -> oauth2.userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
                                 .successHandler(customOAuth2SuccessHandler).failureHandler(customOAuth2FailHandler))
@@ -52,7 +58,10 @@ public class SecurityConfig {
     public JwtAuthenticateFilter jwtAuthenticateFilter() {
         return new JwtAuthenticateFilter(jwtService, URL_WHITE_LIST);
     }
-
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
     // CORS 설정
     CorsConfigurationSource corsConfigurationSource() {
         final List<String> allowedHeaders = List.of("*");

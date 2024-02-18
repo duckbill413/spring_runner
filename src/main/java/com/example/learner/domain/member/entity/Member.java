@@ -6,10 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -29,7 +26,8 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
     private String phoneNumber;
-    private String email;
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<SocialMember> socialMembers = new HashSet<>();
     @AttributeOverrides({
             @AttributeOverride(name = "city", column = @Column(name = "home_city")),
             @AttributeOverride(name = "district", column = @Column(name = "home_district")),
