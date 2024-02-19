@@ -1,4 +1,4 @@
-package com.example.learner.global.security;
+package com.example.learner.global.security.dao;
 
 import com.example.learner.global.security.exception.RefreshTokenException;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class TokenRedisDao {
         }
         return token;
     }
-    public boolean isMatching(String id, String refreshToken) throws RefreshTokenException {
+    public boolean isMatching(UUID id, String refreshToken) throws RefreshTokenException {
         var storedToken = redisTemplate.opsForValue().get(REFRESH_HASH + id);
         if (Objects.isNull(storedToken)) {
             throw new RefreshTokenException(RefreshTokenException.ERROR_CASE.NO_REFRESH);

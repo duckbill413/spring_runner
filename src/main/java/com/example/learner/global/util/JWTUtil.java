@@ -1,6 +1,8 @@
 package com.example.learner.global.util;
 
-import com.example.learner.global.security.TokenRedisDao;
+import com.example.learner.global.security.dao.TokenRedisDao;
+import com.example.learner.global.security.exception.RefreshTokenException;
+import com.example.learner.global.security.service.CustomUserDetailsService;
 import com.example.learner.global.security.user.UserSecurityDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -8,11 +10,13 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * author        : duckbill413
@@ -26,8 +30,6 @@ public class JWTUtil {
     private final long accessTokenExpireTime;
     private final long refreshTokenExpireTime;
     private final String issuer;
-    private static final String ACCESS_HEADER_AUTHORIZATION = "Authorization";
-    private static final String TOKEN_PREFIX = "Bearer ";
     private final TokenRedisDao tokenRedisDao;
 
     public JWTUtil(
@@ -38,7 +40,8 @@ public class JWTUtil {
             @Value(value = "${jwt.expire-time.refresh-token}")
             long refreshTokenExpireTime,
             @Value(value = "${jwt.issuer}")
-            String issuer, TokenRedisDao tokenRedisDao
+            String issuer,
+            TokenRedisDao tokenRedisDao
     ) {
         this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtKey));
         this.accessTokenExpireTime = accessTokenExpireTime;
@@ -59,8 +62,8 @@ public class JWTUtil {
         return refreshToken;
     }
 
-    private String generateToken(UserSecurityDTO userSecurityDTO, long refreshTokenExpireTime) {
-        Date expirationDate = new Date(new Date().getTime() + refreshTokenExpireTime * 1000);
+    private String generateToken(UserSecurityDTO userSecurityDTO, long expireTime) {
+        Date expirationDate = new Date(new Date().getTime() + expireTime * 1000);
 
         return Jwts.builder()
                 .signWith(secretKey, Jwts.SIG.HS256)
@@ -69,6 +72,9 @@ public class JWTUtil {
                 .subject(userSecurityDTO.getUsername())
                 .claim("roles", userSecurityDTO.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
                 .compact();
+    }
+    public boolean isMatching(UUID id, String refreshToken) throws RefreshTokenException {
+        return tokenRedisDao.isMatching(id, refreshToken);
     }
 
     public Claims verifyJwtToken(String token) {

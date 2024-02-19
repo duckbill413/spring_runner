@@ -1,4 +1,4 @@
-package com.example.learner.global.security;
+package com.example.learner.global.security.service;
 
 import com.example.learner.domain.member.dao.MemberRepository;
 import com.example.learner.domain.member.entity.Member;
@@ -26,15 +26,16 @@ import java.util.UUID;
 public class CustomUserDetailsService implements UserDetailsService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+
     @Transactional(readOnly = true)
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserSecurityDTO loadUserByUsername(String email) throws UsernameNotFoundException {
         // 저장된 정보가 없을 경우 회원 가입 처리
-        var member = memberRepository.findById(UUID.fromString(username)).orElseThrow(
+        var member = memberRepository.findById(UUID.fromString(email)).orElseThrow(
                 () -> new BaseExceptionHandler(ErrorCode.NOT_FOUND_USER)
         );
 
-        return UserSecurityDTO.builder()
+        return (UserSecurityDTO) UserSecurityDTO.builder()
                 .username(member.getId().toString())
                 .password(passwordEncoder.encode(UUID.randomUUID().toString()))
                 .authorities(mapPrivilegeToAuthorities(member))

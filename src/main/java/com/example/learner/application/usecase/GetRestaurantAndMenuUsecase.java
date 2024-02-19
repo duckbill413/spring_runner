@@ -21,8 +21,7 @@ public class GetRestaurantAndMenuUsecase {
     private final MenuRepository menuRepository;
 
     public RestaurantAndMenuDetailRes getRestaurantAndMenuDetail(UUID restaurantId) {
-        var restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() ->
-                new BaseExceptionHandler(ErrorCode.NOT_FOUND_RESTAURANT));
+        var restaurant = restaurantRepository.findById(restaurantId).orElseThrow();
 
         var menus = menuRepository.findByRestaurant(restaurant);
 

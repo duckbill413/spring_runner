@@ -1,4 +1,4 @@
-package com.example.learner.global.security;
+package com.example.learner.global.util;
 
 import io.jsonwebtoken.Claims;
 import org.springframework.security.core.GrantedAuthority;

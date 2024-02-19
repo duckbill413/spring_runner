@@ -1,8 +1,11 @@
 package com.example.learner.global.config;
 
-import com.example.learner.global.security.CustomUserDetailsService;
+import com.example.learner.global.security.filter.JwtAuthenticateFilter;
 import com.example.learner.global.security.handler.CustomOAuth2FailHandler;
 import com.example.learner.global.security.handler.CustomOAuth2SuccessHandler;
+import com.example.learner.global.security.service.CustomOAuth2UserService;
+import com.example.learner.global.security.service.CustomUserDetailsService;
+import com.example.learner.global.security.service.JwtService;
 import com.example.learner.global.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -33,9 +36,10 @@ public class SecurityConfig {
             "/swagger-resources/**", "/swagger-ui.html", "/api/token/**"
     };
     private final CustomUserDetailsService customUserDetailsService;
+    private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomOAuth2SuccessHandler customOAuth2SuccessHandler;
     private final CustomOAuth2FailHandler customOAuth2FailHandler;
-    private final JWTUtil jwtUtil;
+    private final JwtService jwtService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

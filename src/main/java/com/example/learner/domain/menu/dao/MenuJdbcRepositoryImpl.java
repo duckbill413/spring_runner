@@ -112,7 +112,7 @@ public class MenuJdbcRepositoryImpl implements MenuJdbcRepository {
         var params = new BeanPropertySqlParameterSource(menu);
         var updatedCount = namedParameterJdbcTemplate.update(sql, params);
 
-        if (updatedCount == 0) throw new BaseExceptionHandler(ErrorCode.FAILED_TO_UPDATE_MENU);
+        if (updatedCount == 0) throw new BaseExceptionHandler(ErrorCode.NOT_VALID_ERROR);
         return menu;
     }
 

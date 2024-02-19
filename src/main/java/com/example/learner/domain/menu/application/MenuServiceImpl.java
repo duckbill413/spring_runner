@@ -55,8 +55,7 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public MenuDetailRes findMenu(Long menuId) {
-        var menu = menuJdbcRepository.findById(menuId).orElseThrow(() ->
-                new BaseExceptionHandler(ErrorCode.NOT_FOUND_MENU));
+        var menu = menuJdbcRepository.findById(menuId).orElseThrow();
         return new MenuDetailRes(menu.getId(), menu.getName(), menu.getPrice(), menu.getStock());
     }
 }

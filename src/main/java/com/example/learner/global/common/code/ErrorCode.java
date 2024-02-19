@@ -69,10 +69,12 @@ public enum ErrorCode {
     INVALID_REFRESH_TOKEN_EXCEPTION(403, "B102", "유효하지 않은 REFRESH TOKEN 입니다."),
     EXPIRED_REFRESH_TOKEN_EXCEPTION(403, "B103", "만료된 REFRESH TOKEN 입니다."),
     INCONSISTENT_REFRESH_TOKEN_EXCEPTION(403, "B104", "일치하지 않는 REFRESH TOKEN 입니다."),
+    UNSUPPORTED_SOCIAL_PLATFORM(403, "B105", "지원하지 않는 소셜 로그인 플랫폼 입니다."),
 
     // 유저 에러 (CODE: 200)
     // 유저가 존재하지 않음
     NOT_FOUND_USER(404, "B200", "존재하지 않는 유저입니다."),
+    NOT_FOUND_S3FILE(701, "B701", "S3 파일이 존재하지 않습니다"),
     ; // End
 
     /**
