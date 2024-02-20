@@ -70,6 +70,7 @@ public enum ErrorCode {
     EXPIRED_REFRESH_TOKEN_EXCEPTION(403, "B103", "만료된 REFRESH TOKEN 입니다."),
     INCONSISTENT_REFRESH_TOKEN_EXCEPTION(403, "B104", "일치하지 않는 REFRESH TOKEN 입니다."),
     UNSUPPORTED_SOCIAL_PLATFORM(403, "B105", "지원하지 않는 소셜 로그인 플랫폼 입니다."),
+    NO_SOCIAL_USER_ATTRIBUTES(403, "B106", "소셜 회원 정보를 불러오지 못하였습니다"),
 
     // 유저 에러 (CODE: 200)
     // 유저가 존재하지 않음

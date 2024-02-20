@@ -19,12 +19,12 @@ public abstract class OAuth2RequestProcessor extends DefaultOAuth2UserService {
         this.oAuth2User = loadUser(oAuth2UserRequest);
     }
     abstract String getEmail(Map<String, Object> attributes);
-    public Map<String, Object> makeUserAttributes(){
+    public Map<String, Object> getSocialUserAttributes(){
         Map<String, Object> userAttributes = new HashMap<>();
         Map<String, Object> oAuth2Attributes = oAuth2User.getAttributes();
 
+        userAttributes.put("platform", this.registrationId);
         userAttributes.put("email", getEmail(oAuth2Attributes));
-        userAttributes.put("registrationId", this.registrationId);
         userAttributes.put(loadUserNameAttributeName(), oAuth2User.getName());
         return userAttributes;
     }
@@ -35,5 +35,4 @@ public abstract class OAuth2RequestProcessor extends DefaultOAuth2UserService {
                 .getUserInfoEndpoint()
                 .getUserNameAttributeName();
     }
-
 }

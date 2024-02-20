@@ -20,7 +20,7 @@ import java.util.UUID;
 @Log4j2
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/restaurant")
+@RequestMapping("/restaurants/menu")
 public class RestaurantAndMenuController {
     private final GetRestaurantAndMenuUsecase getRestaurantAndMenuUsecase;
 

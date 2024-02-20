@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -30,7 +29,6 @@ public class JwtService {
     private static final String TOKEN_PREFIX = "Bearer ";
 
     private final CustomUserDetailsService userDetailsService;
-    private final PasswordEncoder passwordEncoder;
     private final JWTUtil jwtUtil;
 
     /**
@@ -47,7 +45,7 @@ public class JwtService {
 
         UserSecurityDTO userSecurityDTO = (UserSecurityDTO) UserSecurityDTO.builder()
                 .username(claims.getSubject())
-                .password(passwordEncoder.encode(UUID.randomUUID().toString()))
+                .password(UUID.randomUUID().toString())
                 .authorities(JwtClaimsParser.getMemberAuthorities(claims))
                 .build();
 

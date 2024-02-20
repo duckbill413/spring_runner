@@ -4,9 +4,7 @@ import com.example.learner.global.security.filter.JwtAuthenticateFilter;
 import com.example.learner.global.security.handler.CustomOAuth2FailHandler;
 import com.example.learner.global.security.handler.CustomOAuth2SuccessHandler;
 import com.example.learner.global.security.service.CustomOAuth2UserService;
-import com.example.learner.global.security.service.CustomUserDetailsService;
 import com.example.learner.global.security.service.JwtService;
-import com.example.learner.global.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,8 +13,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -35,7 +31,6 @@ public class SecurityConfig {
             "/health", "/api-docs/**", "/swagger-ui/**",
             "/swagger-resources/**", "/swagger-ui.html", "/api/token/**"
     };
-    private final CustomUserDetailsService customUserDetailsService;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomOAuth2SuccessHandler customOAuth2SuccessHandler;
     private final CustomOAuth2FailHandler customOAuth2FailHandler;
@@ -57,14 +52,9 @@ public class SecurityConfig {
 
         return http.build();
     }
-
     @Bean
     public JwtAuthenticateFilter jwtAuthenticateFilter() {
         return new JwtAuthenticateFilter(jwtService, URL_WHITE_LIST);
-    }
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
     // CORS 설정
     CorsConfigurationSource corsConfigurationSource() {

@@ -25,7 +25,8 @@ public class Member extends BaseEntity {
     private String name;
     @Enumerated(EnumType.STRING)
     private Gender gender;
-    private String phoneNumber;
+    @Column(unique = true)
+    private String phone;
     @OneToMany(fetch = FetchType.EAGER)
     private Set<SocialMember> socialMembers = new HashSet<>();
     @AttributeOverrides({

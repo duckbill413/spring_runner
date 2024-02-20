@@ -20,6 +20,7 @@ public class UserSecurityDTO extends User implements OAuth2User {
     private final UUID id;
     private final Map<String, Object> props;
 
+    @Builder(builderMethodName = "fromSocial", buildMethodName = "create")
     public UserSecurityDTO(String username,
                            String password,
                            Collection<? extends GrantedAuthority> authorities,

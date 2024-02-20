@@ -13,8 +13,9 @@ public interface MemberRepository extends JpaRepository<Member, UUID> {
     @Query("""
             SELECT m
             FROM Member m
-            JOIN FETCH m.socialMembers sm
-            ON (sm.socialType = :socialType AND sm.email= :email)
+            JOIN m.socialMembers sm
+            WHERE sm.socialType = :socialType AND sm.socialId = :socialId
             """)
-    Optional<Member> findBySocialTypeAndEmail(@Param("socialType")SocialType socialType, @Param("email") String email);
+    Optional<Member> findBySocialTypeAndSocialId(@Param("socialType") SocialType socialType, @Param("socialId") String socialId);
+    Optional<Member> findByPhone(String phone);
 }
