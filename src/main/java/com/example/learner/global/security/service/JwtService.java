@@ -26,7 +26,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class JwtService {
     private static final String ACCESS_HEADER_AUTHORIZATION = "Authorization";
-    private static final String TOKEN_PREFIX = "Bearer ";
+    private static final String TOKEN_PREFIX = "Bearer";
 
     private final CustomUserDetailsService userDetailsService;
     private final JWTUtil jwtUtil;
@@ -41,13 +41,11 @@ public class JwtService {
         String token = requestHeaderJwtParser(request); // access token 정보
         Claims claims = verifyJwtToken(token);
 
-        log.trace("토큰의 Claims에 저장된 닉네임:" + claims.get("nickname"));
-
-        UserSecurityDTO userSecurityDTO = (UserSecurityDTO) UserSecurityDTO.builder()
+        UserSecurityDTO userSecurityDTO = UserSecurityDTO.fromSocial()
                 .username(claims.getSubject())
                 .password(UUID.randomUUID().toString())
                 .authorities(JwtClaimsParser.getMemberAuthorities(claims))
-                .build();
+                .create();
 
         return new UsernamePasswordAuthenticationToken(
                 userSecurityDTO,
@@ -66,16 +64,16 @@ public class JwtService {
         String token = request.getHeader(ACCESS_HEADER_AUTHORIZATION);
         // access token is null
         if (Objects.isNull(token)) {
-            throw new AccessTokenException(AccessTokenException.TOKEN_ERROR.UNACCEPT);
+            throw new AccessTokenException(AccessTokenException.ACCESS_TOKEN_ERROR.UN_ACCEPT);
         }
         // token type not defined
         String[] separatedToken = token.split(" ");
         if (separatedToken.length != 2) {
-            throw new AccessTokenException(AccessTokenException.TOKEN_ERROR.UNACCEPT);
+            throw new AccessTokenException(AccessTokenException.ACCESS_TOKEN_ERROR.UN_ACCEPT);
         }
         // access token is not bearer type
         if (!separatedToken[0].equalsIgnoreCase(TOKEN_PREFIX)) {
-            throw new AccessTokenException(AccessTokenException.TOKEN_ERROR.BADTYPE);
+            throw new AccessTokenException(AccessTokenException.ACCESS_TOKEN_ERROR.BAD_TYPE);
         }
         return separatedToken[1];
     }
@@ -96,7 +94,7 @@ public class JwtService {
         boolean isMatching = jwtUtil.isMatching(UUID.fromString(id), refreshToken);
         // 서버의 refresh token 과 일치하지 않는 경우
         if (!isMatching) {
-            throw new RefreshTokenException(RefreshTokenException.ERROR_CASE.BAD_REFRESH);
+            throw new RefreshTokenException(RefreshTokenException.REFRESH_TOKEN_ERROR.BAD_REFRESH);
         }
 
         UserSecurityDTO userSecurityDTO = userDetailsService.loadUserByUsername(id);
@@ -109,13 +107,13 @@ public class JwtService {
         try {
             return jwtUtil.verifyJwtToken(token);
         } catch (MalformedJwtException malformedJwtException) {
-            throw new AccessTokenException(AccessTokenException.TOKEN_ERROR.MALFORM);
+            throw new AccessTokenException(AccessTokenException.ACCESS_TOKEN_ERROR.MAL_FORM);
         } catch (SignatureException signatureException) {
-            throw new AccessTokenException(AccessTokenException.TOKEN_ERROR.BADSIGN);
+            throw new AccessTokenException(AccessTokenException.ACCESS_TOKEN_ERROR.BAD_SIGN);
         } catch (UnsupportedJwtException unsupportedJwtException) {
-            throw new AccessTokenException(AccessTokenException.TOKEN_ERROR.BADTYPE);
+            throw new AccessTokenException(AccessTokenException.ACCESS_TOKEN_ERROR.BAD_TYPE);
         } catch (ExpiredJwtException expiredJwtException) {
-            throw new AccessTokenException(AccessTokenException.TOKEN_ERROR.EXPIRED);
+            throw new AccessTokenException(AccessTokenException.ACCESS_TOKEN_ERROR.EXPIRED);
         }
     }
 }

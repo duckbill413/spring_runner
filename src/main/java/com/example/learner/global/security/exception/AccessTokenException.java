@@ -1,13 +1,7 @@
 package com.example.learner.global.security.exception;
 
-import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
-import org.joda.time.LocalDateTime;
-import org.springframework.http.MediaType;
-
-import java.io.IOException;
-import java.util.Map;
 
 /**
  * author        : duckbill413
@@ -15,50 +9,34 @@ import java.util.Map;
  * description   :
  **/
 
-public class AccessTokenException extends RuntimeException {
-    private final TOKEN_ERROR token_error;
+public class AccessTokenException extends TokenException {
+    private final ACCESS_TOKEN_ERROR error;
 
     @Getter
-    public enum TOKEN_ERROR {
-        UNACCEPT(401, "Token is null or too short"),
-        BADTYPE(401, "Token type Bearer"),
-        MALFORM(403, "Malformed Token"),
-        BADSIGN(403, "Bad Signatured Token"),
+    public enum ACCESS_TOKEN_ERROR {
+        UN_ACCEPT(401, "Token is null or too short"),
+        BAD_TYPE(401, "Token type Bearer"),
+        MAL_FORM(403, "Malformed Token"),
+        BAD_SIGN(403, "Bad Signatured Token"),
         EXPIRED(403, "Expired Token"),
         ;
 
         private final int status;
         private final String message;
 
-        TOKEN_ERROR(int status, String message) {
+        ACCESS_TOKEN_ERROR(int status, String message) {
             this.status = status;
             this.message = message;
         }
 
     }
 
-    public AccessTokenException(TOKEN_ERROR error) {
+    public AccessTokenException(ACCESS_TOKEN_ERROR error) {
         super(error.name());
-        this.token_error = error;
+        this.error = error;
     }
 
-    public void sendResponseError(HttpServletResponse response) {
-        response.setStatus(token_error.getStatus());
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setCharacterEncoding("UTF-8");
-
-        Gson gson = new Gson();
-        String responseStr = gson.toJson(
-                Map.of(
-                        "code", token_error.getStatus(),
-                        "message", token_error.getMessage(),
-                        "time", new LocalDateTime()
-                )
-        );
-        try {
-            response.getWriter().println(responseStr);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void addResponseError(HttpServletResponse response) {
+        addTokenErrorResponse(response, error.getStatus(), error.getMessage());
     }
 }

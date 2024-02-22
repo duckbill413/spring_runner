@@ -27,7 +27,8 @@ public class Member extends BaseEntity {
     private Gender gender;
     @Column(unique = true)
     private String phone;
-    @OneToMany(fetch = FetchType.EAGER)
+    @Builder.Default
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<SocialMember> socialMembers = new HashSet<>();
     @AttributeOverrides({
             @AttributeOverride(name = "city", column = @Column(name = "home_city")),
@@ -37,13 +38,14 @@ public class Member extends BaseEntity {
     })
     @Embedded
     private Address address;
+    @Builder.Default
     @ElementCollection(fetch = FetchType.LAZY)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "member_role",
             joinColumns = @JoinColumn(name = "member_id"))
-    private Set<MemberRole> role;
-    @OneToMany(mappedBy = "member")
+    private Set<MemberRole> role = new HashSet<>();
     @Builder.Default
+    @OneToMany(mappedBy = "member")
     private List<OrderDetail> orderDetails = new ArrayList<>();
 }
 

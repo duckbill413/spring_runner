@@ -1,6 +1,8 @@
 package com.example.learner.domain.menu.dao;
 
 import com.example.learner.domain.menu.entity.Menu;
+import com.example.learner.domain.restaurant.dao.RestaurantRepository;
+import com.example.learner.domain.restaurant.entity.Restaurant;
 import com.example.learner.util.MenuFixtureFactory;
 import lombok.extern.log4j.Log4j2;
 import org.jeasy.random.EasyRandom;
@@ -10,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.IntStream;
 
 @Log4j2
@@ -17,6 +21,8 @@ import java.util.stream.IntStream;
 class MenuJdbcRepositoryImplTest {
     @Autowired
     private MenuJdbcRepositoryImpl menuJDBCRepository;
+    @Autowired
+    private RestaurantRepository restaurantRepository;
 
     @Test
     @DisplayName("JDBC 메뉴 정보 bulk insert 테스트")

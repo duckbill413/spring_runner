@@ -21,14 +21,14 @@ public class TokenRedisDao {
     public String get(UUID id) throws RefreshTokenException {
         var token = redisTemplate.opsForValue().get(REFRESH_HASH + id);
         if (Objects.isNull(token)) {
-            throw new RefreshTokenException(RefreshTokenException.ERROR_CASE.NO_REFRESH);
+            throw new RefreshTokenException(RefreshTokenException.REFRESH_TOKEN_ERROR.NO_REFRESH);
         }
         return token;
     }
     public boolean isMatching(UUID id, String refreshToken) throws RefreshTokenException {
         var storedToken = redisTemplate.opsForValue().get(REFRESH_HASH + id);
         if (Objects.isNull(storedToken)) {
-            throw new RefreshTokenException(RefreshTokenException.ERROR_CASE.NO_REFRESH);
+            throw new RefreshTokenException(RefreshTokenException.REFRESH_TOKEN_ERROR.NO_REFRESH);
         }
         return storedToken.equals(refreshToken);
     }

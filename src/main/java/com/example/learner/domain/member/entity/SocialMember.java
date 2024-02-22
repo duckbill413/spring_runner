@@ -12,7 +12,7 @@ import java.util.Objects;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"id"})
+//@EqualsAndHashCode(exclude = {"id"})
 public class SocialMember {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +25,7 @@ public class SocialMember {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
+
     public void setMember(Member member) {
         this.member = member;
         member.getSocialMembers().add(this);

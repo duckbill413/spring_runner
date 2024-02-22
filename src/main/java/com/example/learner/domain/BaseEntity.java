@@ -13,24 +13,32 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
+    @Column(name = "status")
+    private boolean status;
     @CreatedDate
-    @Column(updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column()
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    /**
+     * 데이터가 처음 추가 될 때
+     */
     @PrePersist
     public void prePersist() {
         LocalDateTime now = LocalDateTime.now();
         this.createdAt = now;
         this.updatedAt = now;
+        this.status = true;
     }
 
+    /**
+     * 데이터가 업데이트 될 때
+     */
     @PreUpdate
     public void preUpdate() {
-        LocalDateTime now = LocalDateTime.now();
-        this.updatedAt = now;
+        this.updatedAt = LocalDateTime.now();
     }
 }

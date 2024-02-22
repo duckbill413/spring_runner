@@ -26,10 +26,10 @@ public class CustomUserDetailsService implements UserDetailsService {
                 () -> new BaseExceptionHandler(ErrorCode.NOT_FOUND_USER)
         );
 
-        return (UserSecurityDTO) UserSecurityDTO.builder()
+        return UserSecurityDTO.fromSocial()
                 .username(member.getId().toString())
                 .password(UUID.randomUUID().toString())
                 .authorities(List.of())
-                .build();
+                .create();
     }
 }

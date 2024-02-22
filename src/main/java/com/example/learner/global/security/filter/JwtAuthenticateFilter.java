@@ -39,14 +39,12 @@ public class JwtAuthenticateFilter extends OncePerRequestFilter {
         }
 
         try {
-            log.trace("유저의 토큰을 검증합니다.");
             Authentication authentication = jwtService.authenticateAccessToken(request);
 
-            log.trace("유저의 토큰이 검증되었습니다. 유저를 SecurityContextHolder에 저장합니다.");
             SecurityContextHolder.getContext().setAuthentication(authentication);
             filterChain.doFilter(request, response);
         } catch (AccessTokenException accessTokenException) {
-            accessTokenException.sendResponseError(response);
+            accessTokenException.addResponseError(response);
         }
     }
 }

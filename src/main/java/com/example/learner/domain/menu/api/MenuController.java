@@ -69,9 +69,9 @@ public class MenuController {
     )
     @GetMapping("/{id}")
     public ResponseEntity<BaseResponse<MenuDetailRes>> findMenu(
-            @PathVariable Long menuId
+            @PathVariable Long id
     ) {
-        var menuDto = menuService.findMenu(menuId);
+        var menuDto = menuService.findMenu(id);
         return BaseResponse.success(
                 SuccessCode.SELECT_SUCCESS,
                 menuDto

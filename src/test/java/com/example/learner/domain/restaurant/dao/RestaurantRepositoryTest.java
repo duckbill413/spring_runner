@@ -114,7 +114,7 @@ class RestaurantRepositoryTest {
     @Test
     @DisplayName("레스토랑 저장 테스트")
     @Transactional
-//    @Rollback(value = false)
+    @Rollback(value = false)
     public void saveRestaurant() {
         Restaurant restaurant = Restaurant.builder()
                 .name("홍콩반점")

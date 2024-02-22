@@ -26,9 +26,9 @@ public class RestaurantController {
         );
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{restaurant-id}")
     public ResponseEntity<BaseResponse<String>> updateRestaurant(
-            @PathVariable UUID id,
+            @PathVariable(value = "restaurant-id") UUID id,
             @RequestBody RestaurantInsertReq restaurantInsertReq
     ) {
         restaurantService.updateRestaurant(id, restaurantInsertReq);
@@ -37,9 +37,9 @@ public class RestaurantController {
                 "레스토랑 정보 업데이트 성공!"
         );
     }
-    @GetMapping("/{id}")
+    @GetMapping("/{restaurant-id}")
     public ResponseEntity<BaseResponse<RestaurantDetailRes>> findRestaurantDetail(
-            @PathVariable UUID id
+            @PathVariable(value = "restaurant-id") UUID id
     ) {
         RestaurantDetailRes result = restaurantService.findRestaurantDetail(id);
         return BaseResponse.success(

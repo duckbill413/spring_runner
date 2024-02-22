@@ -26,10 +26,10 @@ public class S3FileController {
     // 프론트에서 ajax 를 통해 /upload 로 MultipartFile 형태로 파일과 roomId 를 전달받는다.
     // 전달받은 file 를 uploadFile 메서드를 통해 업로드한다.
     @PostMapping("/{id}")
-    public S3FileRes uploadFile(@PathVariable("id") UUID id,
+    public S3FileRes uploadFile(@PathVariable("id") String id,
                                 @RequestParam("file") MultipartFile file) throws IOException {
         // fileReq 객체 리턴
-        return s3FileService.upload(id, file);
+        return s3FileService.upload(UUID.fromString(id), file);
     }
 
     // get 으로 요청이 오면 아래 download 메서드를 실행한다.
