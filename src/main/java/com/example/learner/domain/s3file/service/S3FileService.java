@@ -8,9 +8,8 @@ import java.io.IOException;
 import java.util.UUID;
 
 public interface S3FileService {
-    S3FileRes upload(UUID id, MultipartFile file) throws IOException;
-    void remove(UUID id, UUID fileId);
+    S3FileRes upload(String path, MultipartFile file) throws IOException;
     void remove(UUID id);
     S3File findById(UUID id);
-    Object[] getObject(UUID fileId) throws IOException;
+    Object[] getObject(UUID id) throws IOException;
 }
