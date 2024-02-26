@@ -1,0 +1,44 @@
+version: "3"
+services:
+  springboot:
+    container_name: learner-api
+    image: duckbill413/learner-docker-api:latest
+    ports:
+      - "8080:8080"
+    environment:
+      TZ: "Asia/Seoul"
+    networks:
+      - learner-net
+    volumes:
+      - /home/ec2-user/logs:/logs
+
+  redis:
+    image: redis:alpine
+    container_name: learner-redis
+    command: redis-server --port 6379
+    hostname: redis
+    ports:
+      - "6800:6379"
+    networks:
+      - learner-net
+    restart: always
+
+  nginx:
+    container_name: learner-nginx
+    image: duckbill413/learner-docker-nginx:latest
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - learner-net
+    depends_on:
+      - springboot
+
+networks:
+  learner-net:
+    driver: bridge
