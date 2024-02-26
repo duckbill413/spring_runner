@@ -19,29 +19,4 @@ public class SpringLearnerApplication {
     public static void main(String[] args) {
         SpringApplication.run(SpringLearnerApplication.class, args);
     }
-
-    // Favicon Controller
-    // https://www.baeldung.com/spring-boot-favicon
-
-    @PostConstruct
-    public void setTimezone(){
-        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
-        log.info("서버 시작 시간: " + new Date());
-    }
-    @Controller
-    static class FaviconController {
-        @GetMapping("/favicon.ico")
-        @ResponseBody
-        void returnNoFavicon() {
-        }
-    }
-
-    // Health Checking Controller
-    @RestController
-    static class HealthController {
-        @GetMapping("/health")
-        public String healthCheck() {
-            return "health OK";
-        }
-    }
 }

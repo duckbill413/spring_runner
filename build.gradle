@@ -30,6 +30,9 @@ dependencies {
     testImplementation 'org.projectlombok:lombok:1.18.26'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
+    // spring-boot actuator
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
     // security
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
