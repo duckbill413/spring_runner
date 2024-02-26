@@ -2,7 +2,10 @@ version: "3"
 services:
   springboot:
     container_name: learner-api
-    image: duckbill413/learner-docker-api:latest
+    image: duckbill413/learner-docker-api:latest # {{docker-hub-name}}/{{image-name}}
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     environment:
@@ -30,7 +33,7 @@ services:
       context: ./nginx
       dockerfile: Dockerfile
     volumes:
-      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro # letsencrypt 인증키의 경로
     ports:
       - "80:80"
       - "443:443"
