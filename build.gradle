@@ -49,6 +49,9 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    // mongodb 연결
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
     // redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
