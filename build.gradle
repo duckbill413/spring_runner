@@ -72,6 +72,9 @@ dependencies {
     // aws s3
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
+    // Passay 비밀번호 규칙 강제
+    implementation 'org.passay:passay:1.6.0'
+
 }
 
 tasks.named('test') {
