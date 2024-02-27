@@ -1,4 +1,4 @@
-package com.example.learner.global.security.filter;
+package com.example.learner.global.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
