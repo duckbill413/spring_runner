@@ -1,5 +1,6 @@
 package com.example.learner.global.util;
 
+import com.example.learner.domain.member.entity.MemberRole;
 import io.jsonwebtoken.Claims;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,6 +19,11 @@ public class JwtClaimsParser {
                 }
             }
         }
+        return authorities;
+    }
+    public static Collection<GrantedAuthority> getAnonymousRole() {
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + MemberRole.ANONYMOUS.name()));
         return authorities;
     }
 }

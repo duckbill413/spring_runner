@@ -28,7 +28,7 @@ import java.util.List;
 public class SecurityConfig {
     private static final String[] URL_WHITE_LIST = {
             "/error", "/login", "/favicon.ico",
-            "/actuator/**", "/api-docs/**", "/swagger-ui/**",
+            "/actuator/**", "/actuator", "/api-docs/**", "/swagger-ui/**",
             "/swagger-resources/**", "/swagger-ui.html", "/api/token/**"
     };
     private final CustomOAuth2UserService customOAuth2UserService;
