@@ -1,19 +1,8 @@
-buildscript {
-    repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath "com.gorylenko.gradle-git-properties:gradle-git-properties:2.4.1"
-    }
-}
-
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.1'
     id 'io.spring.dependency-management' version '1.1.4'
-    id "com.gorylenko.gradle-git-properties" version "2.4.1"
+    id 'com.gorylenko.gradle-git-properties' version '2.4.1'
 }
 
 group = 'com.example'
@@ -31,6 +20,10 @@ configurations {
 
 repositories {
     mavenCentral()
+}
+
+springBoot {
+    buildInfo()
 }
 
 processResources {
@@ -101,9 +94,6 @@ dependencies {
 
 }
 
-springBoot {
-    buildInfo()
-}
 
 tasks.named('test') {
     useJUnitPlatform()
