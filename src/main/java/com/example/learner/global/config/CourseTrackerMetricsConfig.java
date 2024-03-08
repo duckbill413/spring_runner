@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class CourseTrackerMetricsConfig {
+    // MEMO: /api/actuator/metrics/api.courses.created.count 에서 확인 가능
     @Bean
     public Counter createCourseCounter(MeterRegistry meterRegistry) {
         return Counter.builder("api.courses.created.count")
