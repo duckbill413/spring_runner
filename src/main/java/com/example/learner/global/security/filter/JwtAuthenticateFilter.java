@@ -21,8 +21,6 @@ import java.io.IOException;
 public class JwtAuthenticateFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final String[] URL_WHITE_LIST;
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {

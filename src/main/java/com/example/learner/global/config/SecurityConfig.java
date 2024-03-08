@@ -29,8 +29,7 @@ import java.util.List;
 public class SecurityConfig {
     private static final String[] URL_WHITE_LIST = {
             "/error", "/login", "/favicon.ico",
-            "/actuator/**", "/actuator", "/api-docs/**", "/swagger-ui/**",
-            "/swagger-resources/**", "/swagger-ui.html", "/api/token/**"
+            "/api/token/**"
     };
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomOAuth2SuccessHandler customOAuth2SuccessHandler;
@@ -59,7 +58,7 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthenticateFilter jwtAuthenticateFilter() {
-        return new JwtAuthenticateFilter(jwtService, URL_WHITE_LIST);
+        return new JwtAuthenticateFilter(jwtService);
     }
 
     // CORS 설정
