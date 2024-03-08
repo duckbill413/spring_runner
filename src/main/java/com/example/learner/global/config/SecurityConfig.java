@@ -1,6 +1,7 @@
 package com.example.learner.global.config;
 
 import com.example.learner.global.security.filter.JwtAuthenticateFilter;
+import com.example.learner.global.security.handler.CustomAccessDeniedHandler;
 import com.example.learner.global.security.handler.CustomOAuth2FailHandler;
 import com.example.learner.global.security.handler.CustomOAuth2SuccessHandler;
 import com.example.learner.global.security.service.CustomOAuth2UserService;
@@ -34,6 +35,7 @@ public class SecurityConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomOAuth2SuccessHandler customOAuth2SuccessHandler;
     private final CustomOAuth2FailHandler customOAuth2FailHandler;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final JwtService jwtService;
 
     @Bean
@@ -48,14 +50,18 @@ public class SecurityConfig {
                 .oauth2Login(
                         oauth2 -> oauth2.userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
                                 .successHandler(customOAuth2SuccessHandler).failureHandler(customOAuth2FailHandler))
-                .addFilterBefore(jwtAuthenticateFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthenticateFilter(), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(handlingConfigurer ->
+                        handlingConfigurer.accessDeniedHandler(customAccessDeniedHandler));
 
         return http.build();
     }
+
     @Bean
     public JwtAuthenticateFilter jwtAuthenticateFilter() {
         return new JwtAuthenticateFilter(jwtService, URL_WHITE_LIST);
     }
+
     // CORS 설정
     CorsConfigurationSource corsConfigurationSource() {
         final List<String> allowedHeaders = List.of("*");

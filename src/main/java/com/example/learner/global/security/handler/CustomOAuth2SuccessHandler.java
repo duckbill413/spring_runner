@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -40,6 +40,7 @@ public class CustomOAuth2SuccessHandler implements AuthenticationSuccessHandler 
         String redirectURI = UriComponentsBuilder.fromUriString(REDIRECT_URI_SUCCESS)
                 .queryParam("access-token", accessToken)
                 .queryParam("refresh-token", refreshToken)
+                .queryParam("roles", userSecurityDTO.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
                 .toUriString();
         response.sendRedirect(redirectURI);
     }

@@ -25,9 +25,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Transactional(readOnly = true)
     @Override
-    public UserSecurityDTO loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserSecurityDTO loadUserByUsername(String id) throws UsernameNotFoundException {
         // 저장된 정보가 없을 경우 회원 가입 처리
-        var member = memberRepository.findById(UUID.fromString(email)).orElseThrow(
+        var member = memberRepository.findById(UUID.fromString(id)).orElseThrow(
                 () -> new BaseExceptionHandler(ErrorCode.NOT_FOUND_USER)
         );
 
