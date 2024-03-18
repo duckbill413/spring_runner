@@ -2,9 +2,11 @@ package com.example.learner;
 
 import com.example.learner.global.actuator.release.model.ReleaseItem;
 import com.example.learner.global.actuator.release.model.ReleaseNote;
+import io.micrometer.core.instrument.MeterRegistry;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
@@ -26,8 +28,9 @@ public class SpringLearnerApplication {
     /**
      * 애플리케이션에 특화된 비즈니스 상세 정보를 제공할 수 있는 액추에이터 엔드포인트 작성
      * 커스텀 엔드포인트를 추가하려면 @EndPoint 애너테이션을 붙여서 엔드포인트ㅔ 해당하는 자바 클래스를 정의하고
-     * @ReadOperation, @WriteOperation, @DeleteOperation 애너테이션을 붙인다.
+     *
      * @return
+     * @ReadOperation, @WriteOperation, @DeleteOperation 애너테이션을 붙인다.
      */
     @Bean(name = "releaseNotes")
     public Collection<ReleaseNote> loadReleaseNotes() {
@@ -58,5 +61,14 @@ public class SpringLearnerApplication {
                 .itemId(itemId)
                 .itemDescription(itemDescription)
                 .build();
+    }
+
+    /**
+     * MeterRegistryCustomizer를 사용한 커스텀 MeterRegistry
+     */
+    @Bean
+    MeterRegistryCustomizer<MeterRegistry> metricsCommonTags() {
+        return registry -> registry.config()
+                .commonTags("application", "course-tracker");
     }
 }

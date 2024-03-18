@@ -3,6 +3,7 @@ package com.example.learner.domain.course.api;
 import com.example.learner.domain.course.application.CourseService;
 import com.example.learner.domain.course.entity.Course;
 import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Gauge;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CourseController {
     private final CourseService courseService;
-    private final Counter createCourseCounter;
     @GetMapping("/index")
     public List<Course> index() {
         List<Course> courseList = (List<Course>) courseService.findAllCourses();
@@ -24,7 +24,6 @@ public class CourseController {
     @PostMapping("/addcourse")
     public Iterable<Course> addCourse(@Valid @RequestBody Course course) {
         courseService.createCourse(course);
-        createCourseCounter.increment();
         return courseService.findAllCourses();
     }
 
