@@ -25,8 +25,9 @@
 17. [JPA Part 1](./learner/JPA_Part1.md)
 18. [JPA Part 2](./learner/JPA_Part2.md)
 19. [MongoDB 사용하기](./learner/몽고_DB_사용하기.md)
-20. [Git Flow](./learner/Git_Flow.md)
-21. [개발에 유용한 라이브러리 소개](./learner/유용한_라이브러리_소개.md)
+20. [Spring Actuator](./learner/스프링_부트_액추에이터.md)
+21. [Git Flow](./learner/Git_Flow.md)
+22. [개발에 유용한 라이브러리 소개](./learner/유용한_라이브러리_소개.md)
 
 ## Branch
 1. master `branch`
