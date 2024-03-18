@@ -92,6 +92,8 @@ dependencies {
     // Passay 비밀번호 규칙 강제
     implementation 'org.passay:passay:1.6.0'
 
+    // https://mvnrepository.com/artifact/io.micrometer/micrometer-registry-prometheus
+    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 }
 
 

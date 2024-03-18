@@ -1,13 +1,13 @@
 package com.example.learner.domain.course.application;
 
 import com.example.learner.domain.course.dao.CourseRepository;
+import com.example.learner.domain.course.decorator.CreateCoursesTimerWrapper;
+import com.example.learner.domain.course.decorator.DistributionSummaryWrapper;
 import com.example.learner.domain.course.entity.Course;
-import io.micrometer.core.instrument.Counter;
-import io.micrometer.core.instrument.DistributionSummary;
-import io.micrometer.core.instrument.Gauge;
-import io.micrometer.core.instrument.Timer;
+import com.example.learner.domain.course.event.CreateCourseEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,19 +16,18 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CourseServiceIml implements CourseService {
     private final CourseRepository courseRepository;
-    private final Counter createCourseCounter;
-    private final Timer createCoursesTimer;
-    private final DistributionSummary distributionSummary;
+    private final ApplicationEventPublisher eventPublisher;
+    private final DistributionSummaryWrapper distributionSummaryWrapper;
+    private final CreateCoursesTimerWrapper createCoursesTimerWrapper;
 
     @SneakyThrows
     public Course createCourse(Course course) {
-        createCourseCounter.increment();
-        // Counter
-//        return courseRepository.save(course);
+        // Increment Course via Event
+        eventPublisher.publishEvent(new CreateCourseEvent(this));
         // DistributionSummary
-        distributionSummary.record(course.getRating());
+        distributionSummaryWrapper.record(course.getRating());
         // Timer
-        return createCoursesTimer.recordCallable(() -> courseRepository.save(course));
+        return createCoursesTimerWrapper.recordCallable(() -> courseRepository.save(course));
     }
 
     public Optional<Course> findCourseById(Long courseId) {

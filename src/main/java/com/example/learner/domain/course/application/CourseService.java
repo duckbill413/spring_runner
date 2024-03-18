@@ -5,7 +5,7 @@ import com.example.learner.domain.course.entity.Course;
 import java.util.Optional;
 
 public interface CourseService {
-    Course createCourse(Course course);
+    Object createCourse(Course course);
 
     Optional<Course> findCourseById(Long courseId);
 
