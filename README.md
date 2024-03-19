@@ -32,8 +32,3 @@
 ## Branch
 1. master `branch`
   > - 최신화된 업데이트 및 예제 포함
-2. spring-template `branch`  
-  > - spring security가 적용되지 않은 버전
-3. spring-security-jwt-template `branch`
-  > - spring security 적용 버전
-  > - 소셜로그인 및 `JWT` 토큰 방식 적용
