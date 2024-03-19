@@ -3,7 +3,7 @@
 많이 부족하지만 참고해주시면 영광입니다.  
 
 ## 기술 설명
-[기술 설명 모음집](https://github.com/duckbill413/spring-runner/tree/master/note)
+[기술 설명 모음집](https://github.com/duckbill413/spring_runner/tree/master/note)
 
 **목차**
 1. [패키지 전략](note/패키지_전략.md)
@@ -37,7 +37,3 @@
 3. spring-security-jwt-template `branch`
   > - spring security 적용 버전
   > - 소셜로그인 및 `JWT` 토큰 방식 적용
-
-## `yaml` 파일
-- spring과 aws s3 버킷 연결을 위한 설정 yaml 파일  
-[spring-aws-s3](https://github.com/duckbill413/spring-runner/commit/62cee35925bf4d6f80495400fc2ecb6186154aef#diff-6a52b38301672b5bedc43d9918e9e919787108727e94efeab5b3a0708a310eb0)
