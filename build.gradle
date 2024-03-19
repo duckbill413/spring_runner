@@ -2,7 +2,6 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.1'
     id 'io.spring.dependency-management' version '1.1.4'
-    id 'com.gorylenko.gradle-git-properties' version '2.4.1'
 }
 
 group = 'com.example'
@@ -26,15 +25,6 @@ springBoot {
     buildInfo()
 }
 
-processResources {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    from(sourceSets.main.resources.srcDirs) {
-        include '**/*.yml'
-        expand(project.properties)
-    }
-}
-
-
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -49,12 +39,6 @@ dependencies {
 
     // security
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-
-    // jwt
-    implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
-    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3'
-    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 
     // runtimeOnly 'com.h2database:h2'
     compileOnly 'org.projectlombok:lombok'
@@ -62,9 +46,6 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-    // mongodb 연결
-    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
     // redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
@@ -79,21 +60,6 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
     implementation 'org.springdoc:springdoc-openapi-starter-common:2.0.2'
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
-
-    // https://mvnrepository.com/artifact/org.jeasy/easy-random-core
-    testImplementation 'org.jeasy:easy-random-core:5.0.0'
-
-    // json jackson
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.2'
-
-    // aws s3
-    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
-
-    // Passay 비밀번호 규칙 강제
-    implementation 'org.passay:passay:1.6.0'
-
-    // https://mvnrepository.com/artifact/io.micrometer/micrometer-registry-prometheus
-    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 }
 
 

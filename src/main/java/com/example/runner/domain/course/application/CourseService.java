@@ -5,7 +5,8 @@ import com.example.runner.domain.course.entity.Course;
 import java.util.Optional;
 
 public interface CourseService {
-    Object createCourse(Course course);
+
+    Course createCourse(Course course);
 
     Optional<Course> findCourseById(Long courseId);
 
@@ -14,5 +15,5 @@ public interface CourseService {
     Course updateCourse(Course course);
 
     void deleteCourseById(Long courseId);
-    long count();
+
 }

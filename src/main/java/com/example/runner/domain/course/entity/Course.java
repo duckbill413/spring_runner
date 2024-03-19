@@ -5,13 +5,15 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name = "courses")
 public class Course {
     @Id
@@ -29,7 +31,7 @@ public class Course {
 
     @Column(name = "RATING")
     @Min(value = 1)
-    @Max(value = 5)
+    @Max(value = 100)
     private int rating;
 
     @Column(name = "DESCRIPTION")
