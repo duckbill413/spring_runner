@@ -1,8 +1,8 @@
 version: "3"
 services:
   springboot:
-    container_name: learner-api
-    image: duckbill413/learner-docker-api:latest # {{docker-hub-name}}/{{image-name}}
+    container_name: runner-api
+    image: duckbill413/runner-docker-api:latest # {{docker-hub-name}}/{{image-name}}
     build:
       context: .
       dockerfile: Dockerfile
@@ -11,24 +11,24 @@ services:
     environment:
       TZ: "Asia/Seoul"
     networks:
-      - learner-net
+      - runner-net
     volumes:
       - /home/ec2-user/logs:/logs
 
   redis:
     image: redis:alpine
-    container_name: learner-redis
+    container_name: runner-redis
     command: redis-server --port 6379
     hostname: redis
     ports:
       - "6800:6379"
     networks:
-      - learner-net
+      - runner-net
     restart: always
 
   nginx:
-    container_name: learner-nginx
-    image: duckbill413/learner-docker-nginx:latest
+    container_name: runner-nginx
+    image: duckbill413/runner-docker-nginx:latest
     build:
       context: ./nginx
       dockerfile: Dockerfile
@@ -38,10 +38,10 @@ services:
       - "80:80"
       - "443:443"
     networks:
-      - learner-net
+      - runner-net
     depends_on:
       - springboot
 
 networks:
-  learner-net:
+  runner-net:
     driver: bridge
