@@ -10,7 +10,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
-    private CourseRepository courseRepository;
+    private final CourseRepository courseRepository;
 
     public Course createCourse(Course course) {
         return courseRepository.save(course);

@@ -1,0 +1,67 @@
+server:
+  port: 8080
+
+spring:
+  data:
+    jdbc:
+      repositories:
+        enabled: false
+  datasource:
+    url: jdbc:mysql://localhost:3306/learn?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
+    username: ssafy
+    password: ssafy
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    defer-datasource-initialization: true
+    generate-ddl: true
+    open-in-view: false
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  config:
+    activate:
+      on-profile: session
+
+
+logging:
+  pattern:
+    console: "%clr(%d{dd-MM-yyyy HH:mm:ss.SSS}){yellow} %clr(${PID:- }){green} %highlight([%-5level]) %magenta([%thread]) %clr(%-40.40logger{39}){cyan} %msg%n"
+  level:
+    root: info
+
+springdoc:
+  api-docs:
+    path: /api/api-docs
+    groups:
+      enabled: true
+  swagger-ui:
+    path: /api/swagger-ui.html
+    enabled: true
+    groups-order: asc
+    tags-sorter: alpha
+    operations-sorter: alpha
+    display-request-duration: true
+    doc-expansion: none
+  cache:
+    disabled: true
+  override-with-generic-response: false
+  model-and-view-allowed: false
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  group-configs:
+    - group: all-api
+      paths-to-match:
+        - /**
+      paths-to-exclude:
+        - /favicon.ico
+        - /health
+    - group: jwt-api
+      paths-to-match:
+        - /api/**
+  show-actuator: true
