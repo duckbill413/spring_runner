@@ -2,6 +2,9 @@ package com.example.runner.global.security.exception;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
+
+import java.io.IOException;
 
 /**
  * author        : duckbill413
@@ -14,16 +17,16 @@ public class RefreshTokenException extends TokenException {
 
     @Getter
     public enum REFRESH_TOKEN_ERROR {
-        NO_ACCESS(401, "No access"),
-        BAD_ACCESS(401, "Bad access"),
-        NO_REFRESH(403, "No Refresh Token"),
-        OLD_REFRESH(403, "Old Refresh Token"),
-        BAD_REFRESH(403, "Bad Refresh Token"),
+        NO_ACCESS(HttpStatus.UNAUTHORIZED, "No access"),
+        BAD_ACCESS(HttpStatus.UNAUTHORIZED, "Bad access"),
+        NO_REFRESH(HttpStatus.UNAUTHORIZED, "No refresh token"),
+        OLD_REFRESH(HttpStatus.FORBIDDEN, "Old refresh token"),
+        BAD_REFRESH(HttpStatus.FORBIDDEN, "Bad refresh token"),
         ;
-        private final int status;
+        private final HttpStatus status;
         private final String message;
 
-        REFRESH_TOKEN_ERROR(int status, String message) {
+        REFRESH_TOKEN_ERROR(HttpStatus status, String message) {
             this.status = status;
             this.message = message;
         }
@@ -34,7 +37,7 @@ public class RefreshTokenException extends TokenException {
         this.error = error;
     }
 
-    public void addResponseError(HttpServletResponse response) {
-        addTokenErrorResponse(response, error.getStatus(), error.getMessage());
+    public void addResponseError(HttpServletResponse response) throws IOException {
+        super.addTokenErrorResponse(response, error.getStatus(), error.getMessage());
     }
 }

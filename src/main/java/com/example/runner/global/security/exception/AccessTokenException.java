@@ -2,6 +2,9 @@ package com.example.runner.global.security.exception;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
+
+import java.io.IOException;
 
 /**
  * author        : duckbill413
@@ -14,17 +17,17 @@ public class AccessTokenException extends TokenException {
 
     @Getter
     public enum ACCESS_TOKEN_ERROR {
-        UN_ACCEPT(401, "Token is null or too short"),
-        BAD_TYPE(401, "Token type Bearer"),
-        MAL_FORM(403, "Malformed Token"),
-        BAD_SIGN(403, "Bad Signatured Token"),
-        EXPIRED(403, "Expired Token"),
+        UN_ACCEPT(HttpStatus.UNAUTHORIZED, "Token is null or too short"),
+        BAD_TYPE(HttpStatus.UNAUTHORIZED, "Token type Bearer"),
+        MAL_FORM(HttpStatus.FORBIDDEN, "Malformed token"),
+        BAD_SIGN(HttpStatus.FORBIDDEN, "Bad signature token"),
+        EXPIRED(HttpStatus.FORBIDDEN, "Expired token"),
         ;
 
-        private final int status;
+        private final HttpStatus status;
         private final String message;
 
-        ACCESS_TOKEN_ERROR(int status, String message) {
+        ACCESS_TOKEN_ERROR(HttpStatus status, String message) {
             this.status = status;
             this.message = message;
         }
@@ -36,7 +39,7 @@ public class AccessTokenException extends TokenException {
         this.error = error;
     }
 
-    public void addResponseError(HttpServletResponse response) {
-        addTokenErrorResponse(response, error.getStatus(), error.getMessage());
+    public void addResponseError(HttpServletResponse response) throws IOException {
+        super.addTokenErrorResponse(response, error.getStatus(), error.getMessage());
     }
 }

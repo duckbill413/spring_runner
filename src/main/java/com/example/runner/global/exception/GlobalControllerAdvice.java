@@ -24,8 +24,9 @@ public class GlobalControllerAdvice {
                 .message(e.getMessage())
                 .build();
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodValidation(MethodArgumentNotValidException ex) {
         BindingResult bindingResult = ex.getBindingResult();
@@ -35,7 +36,7 @@ public class GlobalControllerAdvice {
                 .errors(Objects.requireNonNull(bindingResult).getFieldErrors())
                 .build();
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @ExceptionHandler(HandlerMethodValidationException.class)
@@ -45,18 +46,9 @@ public class GlobalControllerAdvice {
                 .message(ex.getMessage())
                 .build();
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
     }
-    @ExceptionHandler(RuntimeException.class)
-    protected ResponseEntity<ErrorResponse> handleRuntimeExceptions(RuntimeException e) {
-        e.printStackTrace();
-        ErrorResponse response = ErrorResponse.of()
-                .code(ErrorCode.INTERNAL_SERVER_ERROR)
-                .message(e.getMessage())
-                .build();
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
     /**
      * 예외 처리 되지 않은 모든 에러 처리
      *
@@ -71,6 +63,6 @@ public class GlobalControllerAdvice {
                 .message(e.getMessage())
                 .build();
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
