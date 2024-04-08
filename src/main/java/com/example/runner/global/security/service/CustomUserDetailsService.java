@@ -1,12 +1,14 @@
 package com.example.runner.global.security.service;
 
 import com.example.runner.domain.member.dao.MemberRepository;
+import com.example.runner.domain.member.entity.Member;
 import com.example.runner.domain.member.entity.MemberRole;
 import com.example.runner.global.common.code.ErrorCode;
 import com.example.runner.global.exception.BaseExceptionHandler;
 import com.example.runner.global.security.user.UserSecurityDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -34,12 +36,11 @@ public class CustomUserDetailsService implements UserDetailsService {
         return UserSecurityDTO.fromSocial()
                 .username(member.getId().toString())
                 .password(UUID.randomUUID().toString())
-                .authorities(getMemberAuthorities(member.getRole()))
+                .authorities(getMemberAuthorities(member))
                 .create();
     }
-    private Collection<GrantedAuthority> getMemberAuthorities(Set<MemberRole> role) {
-        Collection<GrantedAuthority> authorities = new ArrayList<>();
-        role.forEach(memberRole -> authorities.add(new SimpleGrantedAuthority("ROLE_" + memberRole)));
-        return authorities;
+
+    private static Collection<? extends GrantedAuthority> getMemberAuthorities(Member member) {
+        return AuthorityUtils.createAuthorityList(member.getRole().stream().map(Enum::name).toList());
     }
 }

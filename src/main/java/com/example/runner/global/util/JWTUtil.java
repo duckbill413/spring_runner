@@ -71,6 +71,7 @@ public class JWTUtil {
                 .claim("roles", userSecurityDTO.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
                 .compact();
     }
+
     public boolean isMatching(UUID id, String refreshToken) throws RefreshTokenException {
         return tokenRedisDao.isMatching(id, refreshToken);
     }

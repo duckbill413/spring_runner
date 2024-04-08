@@ -115,7 +115,8 @@ public class JwtService {
         return new TokenDto(
                 newAccessToken,
                 newRefreshToken,
-                userSecurityDTO.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList()
+                userSecurityDTO.getAuthorities().stream().map(grantedAuthority ->
+                        grantedAuthority.getAuthority().replaceAll("ROLE_", "")).toList()
         );
     }
 
