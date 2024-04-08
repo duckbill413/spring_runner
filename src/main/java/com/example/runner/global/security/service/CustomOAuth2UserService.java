@@ -56,6 +56,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         Optional<Member> member = memberRepository.findBySocialTypeAndSocialId(socialType, socialId);
         return getSecurityDTO(member, stringObjectMap, phoneObj, socialType, socialId, email);
     }
+
     // 유저 정보 로드 (모바일)
     @Transactional
     public UserSecurityDTO getMobileSecurityDto(SocialType socialType, Object social) {
@@ -82,6 +83,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         // 비회원인 경우 회원 가입
         return getUserSecurityDTO(registerMember(socialType, socialData.id(), socialData.email()));
     }
+
     // 모바일 소셜 타입 및 데이터 변환
     private static SocialData getSocialData(SocialType socialType, Object social) {
         return switch (socialType) {
@@ -100,6 +102,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             case GOOGLE -> null;
         };
     }
+
     // 유저 정보 로드 (웹)
     private UserSecurityDTO getSecurityDTO(Optional<Member> member, Map<String, Object> stringObjectMap, Object phoneObj, SocialType socialType, String socialId, String email) {
         // 존재한다면 로그인 처리

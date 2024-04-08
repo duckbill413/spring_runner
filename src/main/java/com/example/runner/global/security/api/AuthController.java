@@ -50,12 +50,19 @@ public class AuthController {
 
         return BaseResponse.success(
                 SuccessCode.SELECT_SUCCESS,
-                issueToken(kakaoAuthTokenRes)
+                issueToken(SocialType.KAKAO, kakaoAuthTokenRes)
         );
     }
 
-    private TokenDto issueToken(Object social) {
-        UserSecurityDTO userSecurityDTO = customOAuth2UserService.getMobileSecurityDto(SocialType.KAKAO, social);
+    /**
+     * 모바일 소셜 로그인 토큰 발급 로직
+     *
+     * @param socialType 소셜 로그인 타입
+     * @param social     소셜 로그인 아이디 정보
+     * @return access, refresh token dto
+     */
+    private TokenDto issueToken(SocialType socialType, Object social) {
+        UserSecurityDTO userSecurityDTO = customOAuth2UserService.getMobileSecurityDto(socialType, social);
 
         return new TokenDto(
                 jwtService.createAccessToken(userSecurityDTO),
