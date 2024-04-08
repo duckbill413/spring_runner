@@ -20,6 +20,7 @@ import java.io.IOException;
 public class JwtAuthenticateFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
@@ -35,13 +36,8 @@ public class JwtAuthenticateFilter extends OncePerRequestFilter {
         //     return;
         // }
 
-        try {
-            Authentication authentication = jwtService.authenticateAccessToken(request);
-
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            filterChain.doFilter(request, response);
-        } catch (AccessTokenException accessTokenException) {
-            accessTokenException.addResponseError(response);
-        }
+        Authentication authentication = jwtService.authenticateAccessToken(request);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        filterChain.doFilter(request, response);
     }
 }

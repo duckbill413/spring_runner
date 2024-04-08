@@ -2,6 +2,11 @@ package com.example.runner.global.exception;
 
 import com.example.runner.global.common.ErrorResponse;
 import com.example.runner.global.common.code.ErrorCode;
+import com.example.runner.global.security.exception.AccessTokenException;
+import com.example.runner.global.security.exception.RefreshTokenException;
+import com.example.runner.global.security.exception.TokenErrorResponse;
+import com.nimbusds.oauth2.sdk.token.AccessToken;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,11 +16,42 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
+import java.io.IOException;
 import java.util.Objects;
 
 @Log4j2
 @RestControllerAdvice
 public class GlobalControllerAdvice {
+    /**
+     * Access token 확인 에러
+     *
+     * @param e AccessTokenException
+     * @return error response body with status
+     */
+    @ExceptionHandler(AccessTokenException.class)
+    public ResponseEntity<TokenErrorResponse> handleAccessTokenException(AccessTokenException e) {
+        var response = TokenErrorResponse.builder()
+                .status(e.getError().getStatus())
+                .message(e.getError().getMessage())
+                .build();
+        return new ResponseEntity<>(response, e.getError().getStatus());
+    }
+
+    /**
+     * Refresh token 확인 에러
+     *
+     * @param e RefreshTokenException
+     * @return error response body with status
+     */
+    @ExceptionHandler(RefreshTokenException.class)
+    public ResponseEntity<TokenErrorResponse> handleRefreshTokenException(RefreshTokenException e) {
+        var response = TokenErrorResponse.builder()
+                .status(e.getError().getStatus())
+                .message(e.getError().getMessage())
+                .build();
+        return new ResponseEntity<>(response, e.getError().getStatus());
+    }
+
     // Custom ErrorCode를 기반으로 에러 처리
     @ExceptionHandler(BaseExceptionHandler.class)
     public ResponseEntity<ErrorResponse> handleCustomBaseExceptionHandler(BaseExceptionHandler e) {

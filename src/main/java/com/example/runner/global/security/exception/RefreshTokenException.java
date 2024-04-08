@@ -12,9 +12,13 @@ import java.io.IOException;
  * description   :
  **/
 
-public class RefreshTokenException extends TokenException {
+@Getter
+public class RefreshTokenException extends RuntimeException {
     private final REFRESH_TOKEN_ERROR error;
 
+    public RefreshTokenException(REFRESH_TOKEN_ERROR error) {
+        this.error = error;
+    }
     @Getter
     public enum REFRESH_TOKEN_ERROR {
         NO_ACCESS(HttpStatus.UNAUTHORIZED, "No access"),
@@ -23,21 +27,12 @@ public class RefreshTokenException extends TokenException {
         OLD_REFRESH(HttpStatus.FORBIDDEN, "Old refresh token"),
         BAD_REFRESH(HttpStatus.FORBIDDEN, "Bad refresh token"),
         ;
+
         private final HttpStatus status;
         private final String message;
-
         REFRESH_TOKEN_ERROR(HttpStatus status, String message) {
             this.status = status;
             this.message = message;
         }
-    }
-
-    public RefreshTokenException(REFRESH_TOKEN_ERROR error) {
-        super(error.name());
-        this.error = error;
-    }
-
-    public void addResponseError(HttpServletResponse response) throws IOException {
-        super.addTokenErrorResponse(response, error.getStatus(), error.getMessage());
     }
 }

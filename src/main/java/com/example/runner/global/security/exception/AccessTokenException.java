@@ -12,8 +12,13 @@ import java.io.IOException;
  * description   :
  **/
 
-public class AccessTokenException extends TokenException {
+@Getter
+public class AccessTokenException extends RuntimeException {
     private final ACCESS_TOKEN_ERROR error;
+
+    public AccessTokenException(ACCESS_TOKEN_ERROR error) {
+        this.error = error;
+    }
 
     @Getter
     public enum ACCESS_TOKEN_ERROR {
@@ -31,15 +36,5 @@ public class AccessTokenException extends TokenException {
             this.status = status;
             this.message = message;
         }
-
-    }
-
-    public AccessTokenException(ACCESS_TOKEN_ERROR error) {
-        super(error.name());
-        this.error = error;
-    }
-
-    public void addResponseError(HttpServletResponse response) throws IOException {
-        super.addTokenErrorResponse(response, error.getStatus(), error.getMessage());
     }
 }
