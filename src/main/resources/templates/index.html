@@ -68,7 +68,7 @@
                         <td th:text="${course.description}"></td>
                         <td><a th:href="@{/update/{id}(id=${course.id})}" class="btn btn-dark"><i class="fas fa-edit"></i></a></td>
                         <td>
-                            <form action="#" th:action="@{/delete/{id}(id=${course.id})}" th:method="delete">
+                            <form action="#" th:action="@{/delete/{id}(id=${course.id})}" method="#" th:method="delete">
                                 <button type="submit" class="btn btn-danger">
                                     <i class="fas fa-trash"></i>
                                 </button>

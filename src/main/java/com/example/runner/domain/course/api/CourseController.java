@@ -33,6 +33,10 @@ public class CourseController {
     public String showAddCourseForm(Course course) {
         return "add-course";
     }
+    @GetMapping("/accessDenied")
+    public String accessDenied() {
+        return "accessDenied";
+    }
 
     @PostMapping("/addcourse")
     public String addCourse(@Valid Course course, BindingResult result, Model model) {

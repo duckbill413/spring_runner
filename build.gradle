@@ -64,9 +64,9 @@ dependencies {
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-thymeleaf
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     // https://mvnrepository.com/artifact/org.webjars/bootstrap
-    implementation 'org.webjars:bootstrap:4.4.1'
+    implementation 'org.webjars:bootstrap:4.0.0'
     // https://mvnrepository.com/artifact/org.webjars.bower/jquery
-    implementation 'org.webjars.bower:jquery:3.4.1'
+    implementation 'org.webjars.bower:jquery:3.2.1'
     // https://mvnrepository.com/artifact/org.webjars/webjars-locator
     implementation 'org.webjars:webjars-locator:0.38'
 
