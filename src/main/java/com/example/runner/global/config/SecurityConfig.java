@@ -43,7 +43,7 @@ public class SecurityConfig {
     /**
      * UserDetails 를 통해 user, admin 유저를 생성
      *
-     * @return
+     * @return UserDetailsService
      */
     @Bean
     public UserDetailsService users() {
