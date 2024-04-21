@@ -5,9 +5,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
@@ -36,16 +39,25 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    /**
+     * UserDetails 를 통해 user, admin 유저를 생성
+     *
+     * @return
+     */
     @Bean
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().passwordEncoder(passwordEncoder())
-                .withUser("user")
+    public UserDetailsService users() {
+        UserDetails user = User.builder()
+                .username("user")
                 .password(passwordEncoder().encode("duckbill"))
                 .roles("USER")
-                .and()
-                .withUser("admin")
+                .build();
+        UserDetails admin = User.builder()
+                .username("admin")
                 .password(passwordEncoder().encode("duckbill"))
-                .roles("ADMIN");
+                .roles("USER", "ADMIN")
+                .build();
+        return new InMemoryUserDetailsManager(user, admin);
     }
 
     @Bean
